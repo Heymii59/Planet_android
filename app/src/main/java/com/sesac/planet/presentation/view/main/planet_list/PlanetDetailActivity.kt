@@ -18,7 +18,7 @@ import com.sesac.planet.presentation.viewmodel.main.planet.PlanetDetailViewModel
 import com.sesac.planet.presentation.viewmodel.main.planet.PlanetDetailViewModelFactory
 import com.sesac.planet.utility.SystemUtility
 
-class PlanetDetailActivity : AppCompatActivity(), DetailPlansIdForPatch  {
+class PlanetDetailActivity : AppCompatActivity(), DetailPlansIdForPatch, OnGetCreatePlanetPlanResult  {
     private val binding by lazy { ActivityPlanetDetailBinding.inflate(layoutInflater) }
     private lateinit var planetDetailAdapter: PlanetDetailAdapter
 
@@ -63,7 +63,7 @@ class PlanetDetailActivity : AppCompatActivity(), DetailPlansIdForPatch  {
         }
 
         binding.planetDetailAddPlansBtn.setOnClickListener {
-            CreatePlanetPlanDialog().show(supportFragmentManager, "dialog")
+            CreatePlanetPlanDialog(this).show(supportFragmentManager, "dialog")
         }
     }
 
@@ -122,5 +122,9 @@ class PlanetDetailActivity : AppCompatActivity(), DetailPlansIdForPatch  {
             //여기서 API 연결
 
         }
+    }
+
+    override fun onGetCreatePlanetPlanResult(planContent: String?, type: String?) {
+
     }
 }

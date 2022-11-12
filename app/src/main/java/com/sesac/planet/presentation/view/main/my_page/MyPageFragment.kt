@@ -1,23 +1,26 @@
 package com.sesac.planet.presentation.view.main.my_page
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.user.UserApiClient
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.databinding.FragmentMyPageBinding
+import com.sesac.planet.presentation.viewmodel.main.MainViewModel
+import com.sesac.planet.presentation.viewmodel.main.MainViewModelFactory
 import com.sesac.planet.utility.Constant
 import com.sesac.planet.utility.SystemUtility
 
 class MyPageFragment : Fragment()  {
     private var _binding : FragmentMyPageBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by lazy { ViewModelProvider(requireActivity(), MainViewModelFactory()).get(MainViewModel::class.java)}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,19 +35,12 @@ class MyPageFragment : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
         SystemUtility.applyWindowInsetsTopPadding(binding.root)
         initialize()
-        /*
-        binding.myPageReportLayout.setOnClickListener {
-            val intent = Intent(requireContext(), ReportActivity::class.java)
-            startActivity(intent)
-        }
-
-         */
-
-
     }
 
     private fun initialize() {
         initViews()
+        initObservers()
+        fetch()
     }
 
     private fun initViews() {
@@ -70,6 +66,25 @@ class MyPageFragment : Fragment()  {
                     }
                 }
             }
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.currentUserInfoResponse.observe(viewLifecycleOwner) { response ->
+            Log.d("UserInfoTest", response.body()?.result?.user_name.toString())
+            Log.d("UserInfoTest", response.body()?.result?.email.toString())
+
+            binding.myPageProfileNickNameTextView.text = response.body()?.result?.user_name
+            binding.myPageProfileEmailTextView.text = response.body()?.result?.email
+        }
+
+    }
+
+    private fun fetch() {
+        val token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
+        val userIdx = PlanetApplication.sharedPreferences.getInt(Constant.USER_ID, -1)
+        if(token != null && userIdx != -1 ) {
+            viewModel.getCurrentUserInfo(token, userIdx)
         }
     }
 

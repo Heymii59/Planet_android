@@ -9,7 +9,7 @@ import com.sesac.planet.network.main.plan.PlanAPI
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class PlanViewModel(private val getPlanUseCase: GetPlanUseCase): ViewModel() {
+class PlanViewModel(private val getPlanUseCase: GetPlanUseCase) : ViewModel() {
     private val _planData = MutableLiveData<Response<TodayGrowthPlansResponse>>()
     val planData: LiveData<Response<TodayGrowthPlansResponse>> get() = _planData
 
@@ -17,12 +17,10 @@ class PlanViewModel(private val getPlanUseCase: GetPlanUseCase): ViewModel() {
         PlanRepository.planService = PlanetApplication.getInstance().create(PlanAPI::class.java)
     }
 
-    fun getPlan(token: String, journeyId: Int){
-        if(_planData.value == null){
-            viewModelScope.launch {
-                val response = getPlanUseCase(token, journeyId)
-                _planData.value = response
-            }
+    fun getPlan(token: String, journeyId: Int) {
+        viewModelScope.launch {
+            val response = getPlanUseCase(token, journeyId)
+            _planData.value = response
         }
     }
 }

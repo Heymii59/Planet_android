@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -136,6 +137,10 @@ class PreviewMyPlanningFragment : Fragment() {
             when(response.body()?.code) {
                 1000 -> {
                     Snackbar.make(binding.root, "여정을 등록했습니다.", Snackbar.LENGTH_SHORT).show()
+                    PlanetApplication.sharedPreferences.edit {
+                        putBoolean(Constant.IS_ALREADY_CREATED_JOURNEY, true)
+                        putInt(Constant.JOURNEY_ID, response.body()?.result?.journey_id!!)
+                    }
                     activity.startMainActivity()
                 }
                 else -> {

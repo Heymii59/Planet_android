@@ -124,19 +124,6 @@ class HomeAddToDoDialog() : DialogFragment(), OnSelectPlanetResult {
         }
     }
 
-    //월~금 체크박스 초기화
-    private fun initWeekGroup() {
-        binding.dialogHomeMonCheckBtn.isChecked = false
-        binding.dialogHomeTueCheckBtn.isChecked = false
-        binding.dialogHomeWedCheckBtn.isChecked = false
-        binding.dialogHomeThurCheckBtn.isChecked = false
-        binding.dialogHomeFriCheckBtn.isChecked = false
-        binding.dialogHomeSatCheckBtn.isChecked = false
-        binding.dialogHomeSunCheckBtn.isChecked = false
-    }
-
-
-
     //디바이스 가로의 90% 사이즈
     private fun Context.dialogFragmentResize(dialogFragment: DialogFragment, width: Float) {
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -163,6 +150,17 @@ class HomeAddToDoDialog() : DialogFragment(), OnSelectPlanetResult {
 
             window?.setLayout(x, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
+    }
+
+    //월~금 체크박스 초기화
+    private fun initWeekGroup() {
+        binding.dialogHomeMonCheckBtn.isChecked = false
+        binding.dialogHomeTueCheckBtn.isChecked = false
+        binding.dialogHomeWedCheckBtn.isChecked = false
+        binding.dialogHomeThurCheckBtn.isChecked = false
+        binding.dialogHomeFriCheckBtn.isChecked = false
+        binding.dialogHomeSatCheckBtn.isChecked = false
+        binding.dialogHomeSunCheckBtn.isChecked = false
     }
 
     //데이터를 넣기 위해 선택 확인

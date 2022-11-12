@@ -9,5 +9,7 @@ class Constant {
         const val LOGIN_TYPE = "LOGIN_TYPE"
         const val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
         const val USER_ID = "USER_ID"
+        const val IS_ALREADY_CREATED_JOURNEY = "InitJourneyState"
+        const val JOURNEY_ID = "JourneyId"
     }
 }

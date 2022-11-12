@@ -12,16 +12,5 @@
 
         </shape>
     </item>
-    <item android:state_checked="true">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
-
-            <corners android:radius="10dp" />
-            <stroke
-                android:width="1dp"
-                android:color="@color/purple_E0DFFE" />
-            <solid android:color="@color/purple_E0DFFE" />
-
-        </shape>
-    </item>
+    <item android:state_checked="true" android:drawable="@drawable/ic_checked_planet"/>
 </selector>

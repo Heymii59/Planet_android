@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.sesac.planet.R
 import com.sesac.planet.config.PlanetApplication
+import com.sesac.planet.data.model.EmailSignInRequest
 import com.sesac.planet.databinding.FragmentSignUpBinding
 import com.sesac.planet.presentation.view.settings.MakePlanningActivity
 import com.sesac.planet.presentation.viewmodel.login.LoginViewModel
@@ -59,6 +61,7 @@ class SignUpFragment : Fragment() {
     private fun initialize() {
         initViews()
         initObservers()
+
     }
 
     private fun initViews() {
@@ -74,6 +77,13 @@ class SignUpFragment : Fragment() {
             } else {
                 Log.d("KakaoLoginTest", "loginWithKakaoAccount")
                 UserApiClient.instance.loginWithKakaoAccount(requireActivity(), callback = callback)
+            }
+        }
+
+        binding.emailSignInButton.setOnClickListener {
+            if(binding.emailInputEditText.text.toString().isNotEmpty() && binding.passwordInputEditText.text.toString().isNotEmpty()) {
+                val request = EmailSignInRequest(binding.emailInputEditText.text.toString().trim(), binding.passwordInputEditText.text.toString().trim())
+                viewModel.requestEmailSignIn(request)
             }
         }
     }
@@ -97,6 +107,23 @@ class SignUpFragment : Fragment() {
                 }
                 else -> {
                     Snackbar.make(binding.root, "로그인 실패", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        viewModel.requestEmailSignInResponse.observe(viewLifecycleOwner) { response ->
+            Log.d("EmailSignInTest", response.body()?.message.toString())
+            Log.d("EmailSignInTest", response.body()?.result?.jwt.toString())
+            Log.d("EmailSignInTest", response.body()?.result?.userIdx.toString())
+            when(response.body()?.code) {
+                1000 -> {
+                    Toast.makeText(requireActivity(), "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                    PlanetApplication.sharedPreferences.edit {
+                        putString(Constant.X_ACCESS_TOKEN, response.body()?.result?.jwt.toString())
+                        putInt(Constant.USER_ID, response?.body()?.result?.userIdx!!)
+                        putInt(Constant.LOGIN_TYPE, Constant.EMAIL_LOGIN)
+                    }
+                    activity.startNextPage()
                 }
             }
         }

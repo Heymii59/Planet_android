@@ -3,6 +3,7 @@ package com.sesac.planet.presentation.view.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,15 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.sesac.planet.R
+import com.sesac.planet.config.PlanetApplication
+import com.sesac.planet.data.model.AuthCodeVerifyRequest
+import com.sesac.planet.data.model.AuthCodeVerifyResponse
 import com.sesac.planet.databinding.FragmentEmailAuthBinding
 import com.sesac.planet.presentation.viewmodel.login.LoginViewModel
 import com.sesac.planet.presentation.viewmodel.login.LoginViewModelFactory
+import com.sesac.planet.utility.Constant
 import com.sesac.planet.utility.SystemUtility
 
 class EmailAuthFragment : Fragment() {
@@ -80,18 +86,38 @@ class EmailAuthFragment : Fragment() {
         })
 
         binding.requestAuthEmailButton.setOnClickListener {
-            binding.authCodeGroup.visibility = View.VISIBLE
+            val token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
+            viewModel.requestCertificationCode(token!!, binding.inputEmailEditText.text.toString().trim())
         }
 
         binding.verifyAuthCodeButton.setOnClickListener {
             //서버에 인증코드 전달
-            Toast.makeText(requireActivity(), "클릭", Toast.LENGTH_SHORT).show()
-       }
+            val token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
+            val request = AuthCodeVerifyRequest(binding.verifyAuthCodeInputEditText.text.toString().trim(), binding.inputEmailEditText.text.toString())
+            viewModel.requestAuthCodeVerify(token!!, request)
+        }
+
+
     }
 
     private fun initObservers() {
-        viewModel.isSuccessRequestCertificationCode.observe(viewLifecycleOwner) {
+        viewModel.requestAuthCodeResponse.observe(viewLifecycleOwner) { response ->
+            binding.authCodeGroup.visibility = View.VISIBLE
+        }
+        viewModel.requestAuthCodeVerifyResponseResponse.observe(viewLifecycleOwner) { response ->
+            Log.d("AuthTest", response.body()?.result.toString())
+            Log.d("AuthTest", response.body()?.message.toString())
 
+            when(response.body()?.code) {
+                1000 -> {
+                    binding.startNextPageButton.isEnabled = true
+                    viewModel.userEmail = binding.inputEmailEditText.text.toString().trim()
+                    Snackbar.make(binding.root, "이메일 인증에 성공하였습니다.", Snackbar.LENGTH_SHORT).show()
+
+                } else -> {
+                    Snackbar.make(binding.root, "이메일 인증에 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_custom_dialog">
@@ -56,104 +55,111 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_select_explain_tv">
 
-        <GridLayout
-            android:id="@+id/dialog_select_color_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="5"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:rowCount="2">
+        <RadioButton
+            android:id="@+id/dialog_select_deep_purple"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_rowWeight="1"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/purple_896DF3"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_none"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:layout_rowWeight="1"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/purple_896DF3" />
+        <RadioButton
+            android:id="@+id/dialog_select_green"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/green_7AE3AA"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_green"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/green_7AE3AA" />
+        <RadioButton
+            android:id="@+id/dialog_select_orange"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/yellow_FFC212"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_orange"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/yellow_FFC212" />
+        <RadioButton
+            android:id="@+id/dialog_select_pink"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/apricot_F8CBB6"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_pink"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/apricot_F8CBB6" />
+        <RadioButton
+            android:id="@+id/dialog_select_plum"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/red_F2606A"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_plum"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/red_F2606A" />
+    </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/dialog_select_purple"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:background="@drawable/shape_radius_rec_planet" />
+    <RadioGroup
+        android:id="@+id/dialog_select_color_rg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_select_color_rg">
 
-            <RadioButton
-                android:id="@+id/dialog_select_lime"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/green_E0FC4E" />
+        <RadioButton
+            android:id="@+id/dialog_select_purple"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/purple_E0DFFE"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_mustard"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/yellow_FFE500" />
+        <RadioButton
+            android:id="@+id/dialog_select_lime"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/green_D3FB03"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_sky"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/light_blue_b4c9ff" />
+        <RadioButton
+            android:id="@+id/dialog_select_mustard"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/yellow_FDFE00"
+            android:button="@null" />
 
-            <RadioButton
-                android:id="@+id/dialog_select_mono"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:button="@null"
-                android:background="@drawable/shape_radius_rec_planet"
-                android:backgroundTint="@color/gray_E1E1E1" />
-        </GridLayout>
+        <RadioButton
+            android:id="@+id/dialog_select_sky"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/light_blue_b4c9ff"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/dialog_select_mono"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/selector_dialog_select_planet_color"
+            android:backgroundTint="@color/gray_E1E1E1"
+            android:button="@null" />
     </RadioGroup>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -165,7 +171,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_select_color_rg">
+        app:layout_constraintTop_toBottomOf="@+id/dialog_select_color_rg2">
 
         <TextView
             android:id="@+id/dialog_save_tv"

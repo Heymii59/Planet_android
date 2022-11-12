@@ -53,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/dialog_create_to_do_edit_text">
 
             <RadioButton
-                android:id="@+id/dialog_home_once_radio_btn"
+                android:id="@+id/dialog_create_once_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -65,10 +65,10 @@
                 android:paddingRight="8dp"
                 android:text="1회성"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
-                android:textSize="14dp" />
+                android:textSize="13dp" />
 
             <RadioButton
-                android:id="@+id/dialog_home_daily_radio_btn"
+                android:id="@+id/dialog_create_daily_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -80,10 +80,10 @@
                 android:paddingRight="8dp"
                 android:text="매일루틴"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
-                android:textSize="14dp" />
+                android:textSize="13dp" />
 
             <RadioButton
-                android:id="@+id/dialog_home_mind_radio_btn"
+                android:id="@+id/dialog_create_mind_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -95,10 +95,10 @@
                 android:paddingRight="8dp"
                 android:text="마음가짐"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
-                android:textSize="14dp" />
+                android:textSize="13dp" />
 
             <RadioButton
-                android:id="@+id/dialog_home_no_routine_radio_btn"
+                android:id="@+id/dialog_create_no_routine_radio_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -110,7 +110,22 @@
                 android:paddingRight="8dp"
                 android:text="비정기적"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
-                android:textSize="14dp" />
+                android:textSize="13dp" />
+
+            <RadioButton
+                android:id="@+id/dialog_create_choice_radio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/selector_dialog_home_rectangle_radio_button"
+                android:button="@null"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="요일반복"
+                android:textColor="@drawable/selector_dialog_home_radio_text"
+                android:textSize="13dp" />
         </RadioGroup>
 
         <TextView
@@ -123,7 +138,8 @@
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_create_duration_radio_group" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_create_duration_radio_group"
+            android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dialog_create_week_check_group"
@@ -133,7 +149,8 @@
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_create_choice_text_view">
+            app:layout_constraintTop_toBottomOf="@+id/dialog_create_choice_text_view"
+            android:visibility="gone">
 
             <CheckBox
                 android:id="@+id/dialog_create_mon_check_btn"
@@ -145,6 +162,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="월"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/dialog_create_tue_check_btn"
@@ -162,6 +180,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="화"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/dialog_create_wed_check_btn"
@@ -179,6 +198,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="수"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/dialog_create_thur_check_btn"
@@ -196,6 +216,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="목"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/dialog_create_fri_check_btn"
@@ -213,6 +234,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="금"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/dialog_create_sat_check_btn"
@@ -230,6 +252,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="토"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/dialog_create_sun_check_btn"
@@ -247,6 +270,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="일"
+                android:textSize="13dp"
                 android:textColor="@drawable/selector_dialog_home_radio_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -256,6 +280,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/create_planet_plan_save_btn"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/shape_rectangle_radius_10dp_gray_solid"

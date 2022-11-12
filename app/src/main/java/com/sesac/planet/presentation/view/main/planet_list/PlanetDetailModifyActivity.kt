@@ -1,10 +1,8 @@
 package com.sesac.planet.presentation.view.main.planet_list
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sesac.planet.databinding.ActivityPlanetDetailModifyBinding
-import com.sesac.planet.presentation.view.main.planet_list.adapter.PlanetDetailAdapter
+import com.sesac.planet.presentation.view.main.home.OnSelectColorResult
 import com.sesac.planet.presentation.view.main.planet_list.adapter.PlanetDetailModifyAdapter
 import com.sesac.planet.presentation.viewmodel.main.plan.PatchDetailPlanViewModel
 import com.sesac.planet.presentation.viewmodel.main.plan.PatchDetailPlanViewModelFactory
@@ -20,7 +18,7 @@ import com.sesac.planet.presentation.viewmodel.main.planet.PlanetDetailViewModel
 import com.sesac.planet.presentation.viewmodel.main.planet.PlanetDetailViewModelFactory
 import com.sesac.planet.utility.SystemUtility
 
-class PlanetDetailModifyActivity : AppCompatActivity(), ItemDragListener {
+class PlanetDetailModifyActivity : AppCompatActivity(), ItemDragListener, OnSelectColorResult, OnGetCreatePlanetPlanResult {
     private val binding by lazy { ActivityPlanetDetailModifyBinding.inflate(layoutInflater) }
     private lateinit var planetDetailModifyAdapter: PlanetDetailModifyAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
@@ -58,11 +56,11 @@ class PlanetDetailModifyActivity : AppCompatActivity(), ItemDragListener {
         }
 
         binding.planetDetailModifyPlanetImg.setOnClickListener {
-            SelectColorDialog().show(supportFragmentManager, "dialog")
+            SelectColorDialog(this).show(supportFragmentManager, "dialog")
         }
 
         binding.planetDetailModifyAddPlansBtn.setOnClickListener {
-            CreatePlanetPlanDialog().show(supportFragmentManager, "dialog")
+            CreatePlanetPlanDialog(this).show(supportFragmentManager, "dialog")
         }
     }
 
@@ -140,6 +138,14 @@ class PlanetDetailModifyActivity : AppCompatActivity(), ItemDragListener {
                 }
             }
         }
+    }
+
+    override fun onSelectColorResult(colorId: String?) {
+
+    }
+
+    override fun onGetCreatePlanetPlanResult(planContent: String?, type: String?) {
+
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {

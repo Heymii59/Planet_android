@@ -33,6 +33,11 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+    fun restart() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
     override fun onStart() {
         super.onStart()
         if(PlanetApplication.isLoginUser()) {
