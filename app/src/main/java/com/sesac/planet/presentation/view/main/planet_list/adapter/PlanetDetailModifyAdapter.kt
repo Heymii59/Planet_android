@@ -10,9 +10,11 @@ import com.sesac.planet.data.model.planet.ResultPlanetDetailPlan
 import com.sesac.planet.databinding.ItemPlanetDetailDetailsModifyPlanBinding
 import com.sesac.planet.presentation.view.main.planet_list.ItemActionListener
 import com.sesac.planet.presentation.view.main.planet_list.ItemDragListener
+import com.sesac.planet.presentation.view.main.planet_list.OnDeletePlanResult
 
 class PlanetDetailModifyAdapter(
     private val items: MutableList<ResultPlanetDetailPlan>,
+    private val onDeletePlanResult: OnDeletePlanResult,
     private val listener: ItemDragListener
 ): RecyclerView.Adapter<PlanetDetailModifyAdapter.PlanDetailModifyViewHolder>(), ItemActionListener {
     @SuppressLint("ClickableViewAccessibility")
@@ -30,7 +32,12 @@ class PlanetDetailModifyAdapter(
 
             binding.itemPlanetDetailModifyDeleteImageView.setOnClickListener {
                 val position: Int = adapterPosition
-                //삭제
+
+                //삭제 API 연결
+                onDeletePlanResult.onDeletePlanResult(items!![position].detailed_plan_id)
+
+                items.removeAt(position)
+                notifyItemRemoved(position)
             }
         }
 

@@ -51,11 +51,6 @@ class PlanetDetailAdapter(val items: List<ResultPlanetDetailPlan>, private val p
             binding.itemPlanetDetailCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 //세부계획 완료, 미완료 처리를 위해 Activity로 데이터 전달
                 patchDetailPlan.getDetailPlansIdForPatch(items!![position].detailed_plan_id)
-
-                Toast.makeText(binding.root.context, "${items!![position].detailed_plan_id}", Toast.LENGTH_LONG).show()
-
-                //API 연결
-                //patchDetailPlan.getDetailPlansIdForPatch(items!![position].detailed_plan_id)
             }
         }
     }

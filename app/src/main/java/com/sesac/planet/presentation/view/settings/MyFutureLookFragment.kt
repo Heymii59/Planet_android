@@ -72,6 +72,7 @@ class MyFutureLookFragment : Fragment() {
 
     private fun initViews() {
         binding.startNextPageButton.setOnClickListener {
+            viewModel.period = binding.planningWeekEditText.text.toString().toInt()
             viewModel.myFutureLookItems.addAll(myFutureLookAdapter.getCheckedItems())
             val action = MyFutureLookFragmentDirections.actionMyFutureLookFragmentToWantToAchieveFragment()
             findNavController().navigate(action)
@@ -79,6 +80,18 @@ class MyFutureLookFragment : Fragment() {
         binding.startPrevPageButton.setOnClickListener {
             val action = MyFutureLookFragmentDirections.actionMyFutureLookFragmentToMakeNickNameFragment()
             findNavController().navigate(action)
+        }
+
+        binding.plusButton.setOnClickListener {
+            val period = binding.planningWeekEditText.text.toString().toInt() + 1
+            binding.planningWeekEditText.setText(period.toString())
+            viewModel.period = period
+        }
+
+        binding.minusButton.setOnClickListener {
+            val period = binding.planningWeekEditText.text.toString().toInt() - 1
+            binding.planningWeekEditText.setText(period.toString())
+            viewModel.period = period
         }
     }
 

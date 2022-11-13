@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.sesac.planet.databinding.FragmentMakeNickNameBinding
 import com.sesac.planet.presentation.viewmodel.SettingsViewModel
 import com.sesac.planet.presentation.viewmodel.settings.SettingsViewModelFactory
@@ -39,6 +40,7 @@ class MakeNickNameFragment : Fragment() {
         SystemUtility.setSoftInputMode(requireActivity().window, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         initViews()
+        initObservers()
     }
 
     private fun initViews() {
@@ -47,7 +49,25 @@ class MakeNickNameFragment : Fragment() {
             val action = MakeNickNameFragmentDirections.actionMakeNickNameFragment2ToMyFutureLookFragment()
             findNavController().navigate(action)
         }
+
+        binding.checkThisNickNameButton.setOnClickListener {
+            viewModel.checkNickName(binding.nickNameEditText.text.toString())
+        }
     }
+
+    private fun initObservers() {
+        viewModel.isAvailableNickName.observe(viewLifecycleOwner) { response ->
+            when(response.body()?.code) {
+                1000 -> {
+                    Snackbar.make(binding.root, "사용가능한 닉네임입니다.", Snackbar.LENGTH_SHORT).show()
+                }
+                2047 -> {
+                    Snackbar.make(binding.root, "중복된 닉네임입니다.", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

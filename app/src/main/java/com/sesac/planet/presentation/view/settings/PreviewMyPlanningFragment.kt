@@ -1,25 +1,22 @@
 package com.sesac.planet.presentation.view.settings
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.MakeJourneyRequest
 import com.sesac.planet.data.model.Planet
 import com.sesac.planet.databinding.FragmentPreviewMyPlanningBinding
-import com.sesac.planet.presentation.view.settings.adapter.PlanForGoalAdapter
 import com.sesac.planet.presentation.view.settings.adapter.PreviewMyFutureLookAdapter
 import com.sesac.planet.presentation.view.settings.adapter.PreviewPlanForGoalAdapter
 import com.sesac.planet.presentation.viewmodel.SettingsViewModel
@@ -115,6 +112,12 @@ class PreviewMyPlanningFragment : Fragment() {
             }
             Log.d("planetTest", planets.toString())
 
+            Log.d("Test123", keywords.toString())
+            Log.d("Test123", nickName.toString())
+            Log.d("Test123", period.toString())
+            Log.d("Test123", planets.toString())
+
+
             viewModel.makeJourney(
                 MakeJourneyRequest(
                     keywords,
@@ -130,13 +133,16 @@ class PreviewMyPlanningFragment : Fragment() {
             val action = PreviewMyPlanningFragmentDirections.actionPreviewMyPlanningFragmentToPlanForGoalFragment()
             findNavController().navigate(action)
         }
+
+        binding.periodTextView.text = viewModel.period.toString()
     }
+
 
     private fun initObservers() {
         viewModel.isSuccessMakeJourney.observe(viewLifecycleOwner) { response ->
             when(response.body()?.code) {
                 1000 -> {
-                    Snackbar.make(binding.root, "여정을 등록했습니다.", Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "여정을 등록했습니다.", Toast.LENGTH_SHORT).show()
                     PlanetApplication.sharedPreferences.edit {
                         putBoolean(Constant.IS_ALREADY_CREATED_JOURNEY, true)
                         putInt(Constant.JOURNEY_ID, response.body()?.result?.journey_id!!)
@@ -144,6 +150,7 @@ class PreviewMyPlanningFragment : Fragment() {
                     activity.startMainActivity()
                 }
                 else -> {
+                    Log.d("MakePlanTest", response.body()?.message.toString())
                     Snackbar.make(binding.root, "${response.body()?.code} error", Snackbar.LENGTH_SHORT).show()
                 }
             }

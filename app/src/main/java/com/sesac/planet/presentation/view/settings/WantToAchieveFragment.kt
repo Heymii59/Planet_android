@@ -78,6 +78,8 @@ class WantToAchieveFragment : Fragment() {
             val action = WantToAchieveFragmentDirections.actionWantToAchieveFragmentToMyFutureLookFragment()
             findNavController().navigate(action)
         }
+
+        binding.periodTextView.text = viewModel.period.toString()
     }
 
     override fun onDestroyView() {

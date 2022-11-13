@@ -20,19 +20,44 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/want_to_achieve_header_text_view"
-                android:layout_width="0dp"
+                android:id="@+id/period_text_view"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginEnd="20dp"
                 android:lineSpacingExtra="4dp"
-                android:text="26주 동안\n성장하고 싶은 분야,\n이루고 싶은 목표가 있나요?"
+                android:text="26"
                 android:textColor="@color/black"
                 android:textSize="26sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/period_tail_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주 동안"
+                android:textSize="26sp"
+                android:textColor="@color/black"
+
+                app:layout_constraintTop_toTopOf="@id/period_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/period_text_view"
+                app:layout_constraintStart_toEndOf="@id/period_text_view"/>
+
+            <TextView
+                android:id="@+id/want_to_achieve_header_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:lineSpacingExtra="4dp"
+                android:text="성장하고 싶은 분야,\n이루고 싶은 목표가 있나요?"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/period_text_view"/>
 
             <TextView
                 android:id="@+id/want_to_achieve_description_text_view"

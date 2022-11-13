@@ -43,6 +43,17 @@
                 app:layout_constraintStart_toStartOf="@id/my_future_look_header_first_line_text_view"
                 app:layout_constraintTop_toBottomOf="@id/my_future_look_header_first_line_text_view" />
 
+            <ImageView
+                android:id="@+id/plus_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/my_future_look_header_second_line_first_block_text_view"
+                app:layout_constraintEnd_toStartOf="@id/planning_week_edit_text"
+                app:layout_constraintTop_toTopOf="@id/planning_week_edit_text"
+                app:layout_constraintBottom_toBottomOf="@id/planning_week_edit_text"
+                android:src="@drawable/ic_plus"/>
+
             <EditText
                 android:id="@+id/planning_week_edit_text"
                 android:layout_width="wrap_content"
@@ -50,8 +61,19 @@
                 android:layout_marginStart="4dp"
                 android:text="26"
                 android:textSize="26sp"
-                app:layout_constraintStart_toEndOf="@id/my_future_look_header_second_line_first_block_text_view"
+                app:layout_constraintStart_toEndOf="@id/plus_button"
                 app:layout_constraintTop_toBottomOf="@id/my_future_look_header_first_line_text_view" />
+
+            <ImageView
+                android:id="@+id/minus_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/planning_week_edit_text"
+                app:layout_constraintEnd_toStartOf="@id/my_future_look_header_second_line_second_block_text_view"
+                app:layout_constraintTop_toTopOf="@id/planning_week_edit_text"
+                app:layout_constraintBottom_toBottomOf="@id/planning_week_edit_text"
+                android:src="@drawable/ic_minus"/>
 
             <TextView
                 android:id="@+id/my_future_look_header_second_line_second_block_text_view"
@@ -61,7 +83,7 @@
                 android:text="주 후"
                 android:textColor="@color/black"
                 android:textSize="26sp"
-                app:layout_constraintStart_toEndOf="@id/planning_week_edit_text"
+                app:layout_constraintStart_toEndOf="@id/minus_button"
                 app:layout_constraintTop_toTopOf="@id/my_future_look_header_second_line_first_block_text_view" />
 
             <TextView

@@ -13,20 +13,26 @@ import com.sesac.planet.network.main.plan.PostDetailPlanAPI
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class PostDetailPlanViewModel(private val postDetailPlanUseCase: PostDetailPlanUseCase): ViewModel() {
+class PostDetailPlanViewModel(private val postDetailPlanUseCase: PostDetailPlanUseCase) :
+    ViewModel() {
     private val _detailPlan = MutableLiveData<Response<BaseResponse>>()
     val detailPlan get(): LiveData<Response<BaseResponse>> = _detailPlan
 
     init {
-        PlanRepository.postPlanService = PlanetApplication.getInstance().create(PostDetailPlanAPI::class.java)
+        PlanRepository.postPlanService =
+            PlanetApplication.getInstance().create(PostDetailPlanAPI::class.java)
     }
 
-    fun postDetailPlan(token: String, journeyId: Int, planetId: Int, postDetailPlanRequest: PostDetailPlanRequest){
-        if(_detailPlan.value == null){
-            viewModelScope.launch {
-                val response = postDetailPlanUseCase(token, journeyId, planetId, postDetailPlanRequest)
-                _detailPlan.value = response
-            }
+    fun postDetailPlan(
+        token: String,
+        journeyId: Int,
+        planetId: Int,
+        postDetailPlanRequest: PostDetailPlanRequest
+    ) {
+
+        viewModelScope.launch {
+            val response = postDetailPlanUseCase(token, journeyId, planetId, postDetailPlanRequest)
+            _detailPlan.value = response
         }
     }
 }

@@ -12,21 +12,22 @@ import com.sesac.planet.network.main.planet.PlanetDetailAPI
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class PlanetDetailViewModel (private val getPlanetDetailInfoUseCase: GetPlanetDetailInfoUseCase): ViewModel() {
+class PlanetDetailViewModel(private val getPlanetDetailInfoUseCase: GetPlanetDetailInfoUseCase) :
+    ViewModel() {
     private val _planetDetailData = MutableLiveData<Response<PlanetDetailInfoResponse>>()
     val planetDetailData: LiveData<Response<PlanetDetailInfoResponse>> get() = _planetDetailData
 
     init {
         PlanetDetailRepository.planetDetailService = PlanetApplication.getInstance().create(
-            PlanetDetailAPI::class.java)
+            PlanetDetailAPI::class.java
+        )
     }
 
-    fun getPlanetDetailInfo(token: String, planetId: Int){
-        if(_planetDetailData.value == null){
-            viewModelScope.launch {
-                val response = getPlanetDetailInfoUseCase(token, planetId)
-                _planetDetailData.value = response
-            }
+    fun getPlanetDetailInfo(token: String, planetId: Int) {
+        viewModelScope.launch {
+            val response = getPlanetDetailInfoUseCase(token, planetId)
+            _planetDetailData.value = response
         }
+
     }
 }

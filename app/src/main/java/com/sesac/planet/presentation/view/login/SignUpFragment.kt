@@ -1,7 +1,6 @@
 package com.sesac.planet.presentation.view.login
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,13 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
-import com.sesac.planet.R
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.EmailSignInRequest
+import com.sesac.planet.data.model.MakeJourneyRequest
+import com.sesac.planet.data.model.Planet
 import com.sesac.planet.databinding.FragmentSignUpBinding
-import com.sesac.planet.presentation.view.settings.MakePlanningActivity
 import com.sesac.planet.presentation.viewmodel.login.LoginViewModel
 import com.sesac.planet.presentation.viewmodel.login.LoginViewModelFactory
 import com.sesac.planet.utility.Constant
@@ -103,9 +101,10 @@ class SignUpFragment : Fragment() {
                             commit()
                         }
                     }
-                    activity.startNextPage()
+                    checkJourneyExist()
                 }
                 else -> {
+                    Log.d("KakaoLoginTest", it.body()?.code.toString())
                     Snackbar.make(binding.root, "로그인 실패", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -123,10 +122,40 @@ class SignUpFragment : Fragment() {
                         putInt(Constant.USER_ID, response?.body()?.result?.userIdx!!)
                         putInt(Constant.LOGIN_TYPE, Constant.EMAIL_LOGIN)
                     }
+                    checkJourneyExist()
+                }
+            }
+        }
+
+        viewModel.isSuccessMakeJourney.observe(viewLifecycleOwner) { response ->
+            when(response.body()?.code) {
+                2053 -> {
+                    Log.d("SignUpTest", "이미 생성된 여정이 있음")
+                    activity.startMainPage()
+                }
+                else -> {
+                    Log.d("SignUpTest", "여정 생성하러가자")
                     activity.startNextPage()
                 }
             }
         }
+    }
+
+    private fun checkJourneyExist() {
+        val planet = mutableListOf<Planet>()
+        planet.add(Planet(planet_name = "다이어트", detailed_plans = listOf("테스트")))
+
+        val journey = MakeJourneyRequest(
+            listOf("예의바른"),
+            26,
+            "테스트",
+            planet
+        )
+
+        val token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
+        val userId = PlanetApplication.sharedPreferences.getInt(Constant.USER_ID, -1)
+
+        viewModel.makeJourney(journey, token!!, userId)
     }
 
     override fun onAttach(context: Context) {

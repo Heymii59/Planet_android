@@ -13,6 +13,7 @@ data class ResultPlanetInfo(
     @SerializedName("planet_intro") val planet_intro: String?,
     @SerializedName("planet_exp") val planet_exp: Int,
     @SerializedName("planet_level") val planet_level: Int,
+    @SerializedName("plan_count") val plan_count: Int,
     @SerializedName("color_rgb") val color: String?
 )
 

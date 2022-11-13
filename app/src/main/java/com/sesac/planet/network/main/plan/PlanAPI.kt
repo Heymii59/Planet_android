@@ -1,5 +1,6 @@
 package com.sesac.planet.network.main.plan
 
+import com.sesac.planet.data.model.CheckNickNameResponse
 import com.sesac.planet.data.model.MakeJourneyRequest
 import com.sesac.planet.data.model.MakeJourneyResponse
 import com.sesac.planet.data.model.plan.TodayGrowthPlansResponse
@@ -20,4 +21,9 @@ interface PlanAPI {
         @Header("X-ACCESS-TOKEN") token: String,
         @Body journeyRequest: MakeJourneyRequest
     ): Response<MakeJourneyResponse>
+
+    @POST("/journey/nickname")
+    suspend fun checkNickName(
+        @Body nickName: String
+    ): Response<CheckNickNameResponse>
 }

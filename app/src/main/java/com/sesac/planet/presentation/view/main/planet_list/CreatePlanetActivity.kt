@@ -8,16 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.planet.CreateNewPlanetPlanListRequest
 import com.sesac.planet.data.model.planet.CreateNewPlanetRequest
 import com.sesac.planet.databinding.ActivityCreatePlanetBinding
 import com.sesac.planet.presentation.view.main.home.OnSelectColorResult
+import com.sesac.planet.presentation.view.main.planet_list.adapter.CreateDetailPlanAdapter
 import com.sesac.planet.presentation.viewmodel.main.planet.NewPlanetViewModel
 import com.sesac.planet.presentation.viewmodel.main.planet.NewPlanetViewModelFactory
+import com.sesac.planet.utility.Constant
 import com.sesac.planet.utility.SystemUtility
 
 class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCreatePlanetPlanResult {
     private val binding by lazy { ActivityCreatePlanetBinding.inflate(layoutInflater) }
+
+    private var token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
+    private var journeyId = PlanetApplication.sharedPreferences.getInt(Constant.JOURNEY_ID, 0)
 
     private var selectedColor: String = ""
     private var planData: MutableList<CreateNewPlanetPlanListRequest> = mutableListOf()
@@ -67,9 +73,12 @@ class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCrea
     }
 
     private fun createNewPlanet(){
-        newPlanetViewModel.createNewPlanet("eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoxMSwiaWF0IjoxNjY3NjI2OTA1LCJleHAiOjE2NjkwOTgxMzR9.1IgJRf7fl08M0_5DZPff8a5GCH79hpyFtGkGET5ZtgM",
-            6, CreateNewPlanetRequest(binding.createPlanetNameEdt.text.toString(), binding.createPlanetExplainPlanetTextView.text.toString(), selectedColor, planData)
-        )
+        token?.let {
+            newPlanetViewModel.createNewPlanet(
+                it,
+                journeyId, CreateNewPlanetRequest(binding.createPlanetNameEdt.text.toString(), binding.createPlanetExplainPlanetTextView.text.toString(), selectedColor, planData)
+            )
+        }
     }
 
     //Dialog에서 선택한 색깔 값 받아옴

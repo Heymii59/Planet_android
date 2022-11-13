@@ -3,18 +3,38 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/ic_planet_empty.xml" value="0.1" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/ic_plus_backgroundless.xml" value="0.17" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/ic_plus_gray.xml" value="0.17" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/layer_list_progress_bar.xml" value="0.1165" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/selector_delete_planet_dialog_btn.xml" value="0.155" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/selector_dialog_select_planet_color.xml" value="0.159" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/selector_home_dialog_select_planet.xml" value="0.162" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/selector_select_color.xml" value="0.159" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_half_radius_rec_planet.xml" value="0.1625" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_bottom_radius_10dp_purple.xml" value="0.155" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp.xml" value="0.155" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp_light_purple_solid.xml" value="0.155" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp_planet_solid.xml" value="0.155" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp_purple_solid.xml" value="0.155" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp_purple_stroke.xml" value="0.155" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp_stroke_1dp.xml" value="0.229" />
-        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/activity_create_planet.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/activity_create_planet.xml" value="0.24564102564102563" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/activity_planet_detail.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/activity_planet_detail_modify.xml" value="0.24564102564102563" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/dialog_create_planet_plan.xml" value="0.24564102564102563" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/dialog_delete_planet.xml" value="0.22870370370370371" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/dialog_select_planet_color.xml" value="0.24564102564102563" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/fragment_home.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/fragment_my_page.xml" value="0.18055555555555555" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/fragment_planet_list.xml" value="0.24564102564102563" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/item_create_planet_plan.xml" value="0.2484375" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/item_detail_plan.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/item_home_today_growth_plan.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/item_planet_detail_details_modify_plan.xml" value="0.24947916666666667" />
         <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/item_planet_detail_details_plan.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/Workspace/Planet_android/app/src/main/res/layout/item_planet_list.xml" value="0.24564102564102563" />
         <entry key="..\:/Users/chair/Desktop/github/Planet_android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/chair/Desktop/github/Planet_android/app/src/main/res/drawable/shape_rectangle_gray_stroke_white_solid.xml" value="0.152" />
         <entry key="..\:/Users/chair/Desktop/github/Planet_android/app/src/main/res/drawable/shape_rectangle_radius_10dp_gray_stroke_white_solid.xml" value="0.1" />

@@ -18,6 +18,9 @@
             android:id="@+id/item_dialog_planet_image_view"
             android:layout_width="60dp"
             android:layout_height="60dp"
+
+            android:button="@null"
+            android:background="@drawable/shape_rectangle_radius_10dp_stroke_1dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,5 +39,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_dialog_planet_image_view" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

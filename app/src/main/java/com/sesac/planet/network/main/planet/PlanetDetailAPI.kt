@@ -7,7 +7,6 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface PlanetDetailAPI {
-    //홈화면에 오늘의 성장계획 리스트를 가져오는 api
     @GET("/planets/detail/{planet_id}")
     suspend fun getPlanetDetailInfo(
         @Header("X-ACCESS-TOKEN") token: String,

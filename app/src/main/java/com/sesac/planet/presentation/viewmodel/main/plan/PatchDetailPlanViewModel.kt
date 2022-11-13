@@ -23,11 +23,9 @@ class PatchDetailPlanViewModel(private val patchDetailPlanUseCase: PatchDetailPl
     }
 
     fun patchDetailPlan(token: String, detailedPlanId: Int) {
-        if (_patchDetailPlan.value == null) {
-            viewModelScope.launch {
-                val response = patchDetailPlanUseCase(token, detailedPlanId)
-                _patchDetailPlan.value = response
-            }
+        viewModelScope.launch {
+            val response = patchDetailPlanUseCase(token, detailedPlanId)
+            _patchDetailPlan.value = response
         }
     }
 }

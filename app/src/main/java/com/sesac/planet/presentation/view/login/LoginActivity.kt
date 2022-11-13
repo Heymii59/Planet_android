@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.databinding.ActivityLoginBinding
+import com.sesac.planet.presentation.view.main.MainActivity
 import com.sesac.planet.presentation.view.settings.MakePlanningActivity
 import com.sesac.planet.utility.SystemUtility
 
@@ -33,6 +34,12 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+    fun startMainPage() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+
     fun restart() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
@@ -41,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if(PlanetApplication.isLoginUser()) {
-            startNextPage()
+            startMainPage()
         }
     }
 

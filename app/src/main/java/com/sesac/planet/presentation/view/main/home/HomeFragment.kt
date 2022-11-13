@@ -2,12 +2,11 @@ package com.sesac.planet.presentation.view.main.home
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,29 +19,29 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.sesac.planet.R
 import com.sesac.planet.config.PlanetApplication
+import com.sesac.planet.data.model.plan.PostDetailPlanRequest
 import com.sesac.planet.databinding.FragmentHomeBinding
 import com.sesac.planet.presentation.view.main.home.adapter.HomeTodayGrowthPlanAdapter
-import com.sesac.planet.presentation.viewmodel.main.KeywordViewModel
+import com.sesac.planet.presentation.viewmodel.main.home.KeywordViewModel
 import com.sesac.planet.presentation.viewmodel.main.report.GetTodayInfoViewModelFactory
 import com.sesac.planet.presentation.viewmodel.main.home.KeywordViewModelFactory
-import com.sesac.planet.presentation.viewmodel.main.plan.PlanViewModel
-import com.sesac.planet.presentation.viewmodel.main.plan.PlanViewModelFactory
+import com.sesac.planet.presentation.viewmodel.main.plan.*
 import com.sesac.planet.presentation.viewmodel.main.report.GetTodayInfoViewModel
 import com.sesac.planet.presentation.viewmodel.main.report.ReportViewModel
 import com.sesac.planet.presentation.viewmodel.main.report.ReportViewModelFactory
 import com.sesac.planet.utility.Constant
 import com.sesac.planet.utility.SystemUtility
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnPostDetailPlan {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var homeTodayGrowthPlanAdapter: HomeTodayGrowthPlanAdapter
     private var isShowMore: Boolean = false
 
-    private var token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
-    private var userId = PlanetApplication.sharedPreferences.getInt(Constant.USER_ID, 0)
-    private var journeyId = PlanetApplication.sharedPreferences.getInt(Constant.JOURNEY_ID, 0)
+    private var token = ""
+    private var userId = 0
+    private var journeyId = 0
 
     private val entry1 = ArrayList<Entry>() //차트 1
     private val entry2 = ArrayList<Entry>() //차트 2
@@ -58,7 +57,7 @@ class HomeFragment : Fragment() {
     }
 
     //오늘 달성한 프로그레스바 뷰모델
-    private val getTodayInfoViewModel by lazy{
+    private val getTodayInfoViewModel by lazy {
         ViewModelProvider(
             this,
             GetTodayInfoViewModelFactory()
@@ -70,6 +69,20 @@ class HomeFragment : Fragment() {
             this,
             PlanViewModelFactory()
         )[PlanViewModel::class.java]
+    }
+
+    private val postDetailPlanViewModel by lazy {
+        ViewModelProvider(
+            this,
+            PostDetailPlanViewModelFactory()
+        )[PostDetailPlanViewModel::class.java]
+    }
+
+    private val patchDetailPlanViewModel by lazy {
+        ViewModelProvider(
+            this,
+            PatchDetailPlanViewModelFactory()
+        )[PatchDetailPlanViewModel::class.java]
     }
 
     private val reportViewModel by lazy {
@@ -84,6 +97,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        isShowMore = false
+        binding.homeShowMoreBtn.setImageResource(R.drawable.ic_down_arrow)
+
         initViews()
         return binding.root
     }
@@ -94,6 +111,8 @@ class HomeFragment : Fragment() {
 
     private fun initialize() {
         SystemUtility.applyWindowInsetsTopPadding(binding.root)
+
+        fetch()
 
         //키워드 데이터 세팅
         initKeyword()
@@ -118,35 +137,52 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeAddToDoBtn.setOnClickListener {
-            activity?.let { it1 -> HomeAddToDoDialog().show(it1.supportFragmentManager, "Dialog") }
+            activity?.let { it1 ->
+                HomeAddToDoDialog(this).show(
+                    it1.supportFragmentManager,
+                    "Dialog"
+                )
+            }
         }
 
         setChart()
     }
 
+    private fun fetch() {
+        token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "").toString()
+        userId = PlanetApplication.sharedPreferences.getInt(Constant.USER_ID, -1)
+        journeyId = PlanetApplication.sharedPreferences.getInt(Constant.JOURNEY_ID, -1)
+    }
+
     //뷰모델
     private fun initKeyword() {
         initKeywordObservers()
-        keywordViewModel.getKeyword(
-            "eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoxMSwiaWF0IjoxNjY3NjI2OTA1LCJleHAiOjE2NjkwOTgxMzR9.1IgJRf7fl08M0_5DZPff8a5GCH79hpyFtGkGET5ZtgM",
-            6
-        )
+        token?.let {
+            keywordViewModel.getKeyword(
+                it,
+                journeyId
+            )
+        }
     }
 
-    private fun initGetTodayInfo(){
+    private fun initGetTodayInfo() {
         initGetTodayInfoObservers()
-        getTodayInfoViewModel.getTodayInfo(
-            "eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoxMSwiaWF0IjoxNjY3NjI2OTA1LCJleHAiOjE2NjkwOTgxMzR9.1IgJRf7fl08M0_5DZPff8a5GCH79hpyFtGkGET5ZtgM",
-            11
-        )
+        token?.let {
+            getTodayInfoViewModel.getTodayInfo(
+                it,
+                userId
+            )
+        }
     }
 
     private fun initHomeTodayGrowthRcv() {
         initObservers()
-        viewModel.getPlan(
-            "eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoxMSwiaWF0IjoxNjY3NjI2OTA1LCJleHAiOjE2NjkwOTgxMzR9.1IgJRf7fl08M0_5DZPff8a5GCH79hpyFtGkGET5ZtgM",
-            6
-        )
+        token?.let {
+            viewModel.getPlan(
+                it,
+                journeyId
+            )
+        }
     }
 
     //옵저버
@@ -167,28 +203,31 @@ class HomeFragment : Fragment() {
 
     private fun initReport() {
         initReportObservers()
-        reportViewModel.getReport(
-            "eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoxMSwiaWF0IjoxNjY3NjI2OTA1LCJleHAiOjE2NjkwOTgxMzR9.1IgJRf7fl08M0_5DZPff8a5GCH79hpyFtGkGET5ZtgM",
-            11
-        )
+        token?.let {
+            reportViewModel.getReport(
+                it,
+                userId
+            )
+        }
         binding.homeMyReportChart.invalidate()
     }
 
-    private fun initGetTodayInfoObservers(){
-        getTodayInfoViewModel.getTodayInfoData.observe(viewLifecycleOwner){ response ->
-            if(response.isSuccessful){
+    private fun initGetTodayInfoObservers() {
+        getTodayInfoViewModel.getTodayInfoData.observe(viewLifecycleOwner) { response ->
+            if (response.isSuccessful) {
                 response.body()?.result.let { body ->
-                    if(body == null){
+                    if (body == null) {
 
-                    } else{
-                        binding.homeAccomplishTextView.text = "오늘 할 일 ${body.totalPlan}개 중 ${body.completedCount}개를 달성하였습니다"
+                    } else {
+                        binding.homeAccomplishTextView.text =
+                            "오늘 할 일 ${body.totalPlan}개 중 ${body.completedCount}개를 달성하였습니다"
                         binding.homeAccomplishProgressBar.max = body.totalPlan
                         binding.homeAccomplishProgressBar.progress = body.completedCount
                         binding.homeAccomplishedAmountTextView.text = body.completedCount.toString()
                         binding.homeTargetAmountTextView.text = body.totalPlan.toString()
                     }
                 }
-            } else{
+            } else {
 
             }
         }
@@ -199,22 +238,64 @@ class HomeFragment : Fragment() {
             if (response.isSuccessful) {
                 response.body()?.result.let { body ->
                     if (body == null) {
-                        binding.homeNoResultTv.visibility = View.VISIBLE
-                        binding.homeShowMoreBtn.visibility = View.GONE
+
                     } else {
-                        homeTodayGrowthPlanAdapter = HomeTodayGrowthPlanAdapter(body, isShowMore)
-                        binding.homeAddToDoRcv.layoutManager =
-                            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                        binding.homeAddToDoRcv.adapter = homeTodayGrowthPlanAdapter
+                        if (body.isEmpty()) {
+                            binding.homeNoResultTv.visibility = View.VISIBLE
+                            binding.homeAddToDoRcv.visibility = View.GONE
+                            binding.homeShowMoreBtn.visibility = View.GONE
+                        } else {
+                            if (body.size < 3) {
+                                binding.homeNoResultTv.visibility = View.GONE
+                                binding.homeAddToDoRcv.visibility = View.VISIBLE
+                                binding.homeShowMoreBtn.visibility = View.GONE
+                            } else {
+                                binding.homeNoResultTv.visibility = View.GONE
+                                binding.homeAddToDoRcv.visibility = View.VISIBLE
+                                binding.homeShowMoreBtn.visibility = View.VISIBLE
+                            }
+
+                            homeTodayGrowthPlanAdapter =
+                                HomeTodayGrowthPlanAdapter(body, isShowMore)
+                            binding.homeAddToDoRcv.layoutManager =
+                                LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+                            binding.homeAddToDoRcv.adapter = homeTodayGrowthPlanAdapter
+
+                            homeTodayGrowthPlanAdapter.setItemClickListener(object :
+                                HomeTodayGrowthPlanAdapter.OnItemClickListener {
+                                override fun onClick(v: View, position: Int, detailedPlanId: Int) {
+                                    //계획 완료/미완료 API 연결
+                                    token?.let {
+                                        patchDetailPlanViewModel.patchDetailPlan(
+                                            it,
+                                            detailedPlanId
+                                        )
+                                    }
+                                }
+                            })
+
+                        }
                     }
                 }
             } else {
-                //서버에 문제가 생겼을 때
-                Toast.makeText(requireContext(), "문제가 생겼습니다.", Toast.LENGTH_LONG).show()
-                binding.homeNoResultTv.visibility = View.VISIBLE
-                binding.homeNoResultTv.text = "개발자에게 문의해주세요"
-                binding.homeShowMoreBtn.visibility = View.GONE
+
             }
+        }
+    }
+
+    override fun onPostDetailPlan(planetId: Int?, toDoText: String?, type: String?) {
+        //오늘의 성장 계획 추가하기
+        if (planetId != null && toDoText != null && type != null) {
+            token?.let {
+                postDetailPlanViewModel.postDetailPlan(
+                    it,
+                    journeyId, planetId, PostDetailPlanRequest(toDoText, type)
+                )
+            }
+
+            //activity?.let { refreshFragment(this, it.supportFragmentManager) }
+            //homeTodayGrowthPlanAdapter.notifyDataSetChanged()
+            //initHomeTodayGrowthRcv()
         }
     }
 
@@ -343,7 +424,17 @@ class HomeFragment : Fragment() {
         //binding.lineChart.marker = marker
     }
 
+    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+        var fm = activity?.supportFragmentManager
+        var oldFragment: Fragment? = fm?.findFragmentById(R.id.action_home)
 
+        if (oldFragment != null) {
+            fm?.beginTransaction()?.remove(oldFragment)?.commit()
+        }
+
+        val newFragment = Fragment()
+        fm?.beginTransaction()?.add(newFragment, "fragment_tag")
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

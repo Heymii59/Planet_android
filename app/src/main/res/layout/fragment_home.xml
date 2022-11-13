@@ -19,7 +19,7 @@
                 android:id="@+id/home_greet_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -68,9 +68,9 @@
                 android:id="@+id/home_target_amount_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_greet_layout">
@@ -152,9 +152,9 @@
                 android:id="@+id/home_today_growth_plan_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/shape_rectangle_radius_10dp_gray_stroke_white_solid"
                 android:elevation="5dp"
                 android:paddingLeft="20dp"
@@ -268,18 +268,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_my_report_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="20dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/shape_rectangle_radius_10dp_gray_stroke_white_solid"
                 android:elevation="5dp"
                 android:padding="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_today_growth_plan_layout">
 
                 <androidx.constraintlayout.widget.ConstraintLayout

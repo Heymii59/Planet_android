@@ -1,4 +1,4 @@
-package com.sesac.planet.presentation.view.main.planet_list
+package com.sesac.planet.presentation.view.main.planet_list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -50,6 +50,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.2"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.2"
 
+    //round corner progressbar
+    //implementation 'com.akexorcist:round-corner-progress-bar:2.1.2'
+
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 

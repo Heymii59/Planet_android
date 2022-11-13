@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.*
 import com.sesac.planet.data.repository.AuthRepository
+import com.sesac.planet.data.repository.main.plan.PlanRepository
 import com.sesac.planet.domain.usecase.*
 import com.sesac.planet.network.LoginAPI
+import com.sesac.planet.network.main.plan.PlanAPI
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -17,7 +19,8 @@ class LoginViewModel(
     private val requestKakaoLoginUseCase: RequestKakaoLoginUseCase,
     private val requestAuthCodeVerifyUseCase: RequestAuthCodeVerifyUseCase,
     private val requestEmailSignUpUseCase: RequestEmailSignUpUseCase,
-    private val requestEmailSignInUseCase: RequestEmailSignInUseCase
+    private val requestEmailSignInUseCase: RequestEmailSignInUseCase,
+    private val makeJourneyUseCase: MakeJourneyUseCase
 ) : ViewModel() {
     private var _requestAuthCodeResponse: MutableLiveData<Response<RequestEmailAuthCodeResponse>> = MutableLiveData()
     val requestAuthCodeResponse: LiveData<Response<RequestEmailAuthCodeResponse>> get() = _requestAuthCodeResponse
@@ -40,6 +43,7 @@ class LoginViewModel(
 
     init {
         AuthRepository.loginAPI = PlanetApplication.getInstance().create(LoginAPI::class.java)
+        PlanRepository.planService = PlanetApplication.getInstance().create(PlanAPI::class.java)
     }
 
     fun requestCertificationCode(token: String, email: String) {
@@ -69,6 +73,15 @@ class LoginViewModel(
     fun requestEmailSignIn(request: EmailSignInRequest) {
         viewModelScope.launch {
             _requestEmailSignInResponse.value = requestEmailSignInUseCase(request)!!
+        }
+    }
+
+    private val _isSuccessMakeJourney = MutableLiveData<Response<MakeJourneyResponse>>()
+    val isSuccessMakeJourney: LiveData<Response<MakeJourneyResponse>> get() = _isSuccessMakeJourney
+
+    fun makeJourney(journeyRequest: MakeJourneyRequest, token: String, userId: Int) {
+        viewModelScope.launch {
+            _isSuccessMakeJourney.value = makeJourneyUseCase(journeyRequest, token, userId)!!
         }
     }
 }

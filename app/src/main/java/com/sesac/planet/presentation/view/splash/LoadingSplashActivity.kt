@@ -43,9 +43,9 @@ class LoadingSplashActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 delay(Constant.SPLASH_ANIMATION_MILLIS)
                 //ToDO
-                //startActivity(Intent(this@LoadingSplashActivity, LoginActivity::class.java))
+                startActivity(Intent(this@LoadingSplashActivity, LoginActivity::class.java))
                 //startActivity(Intent(this@SplashActivity, MakePlanningActivity::class.java))
-                startActivity(Intent(this@LoadingSplashActivity, MainActivity::class.java))
+                //startActivity(Intent(this@LoadingSplashActivity, MainActivity::class.java))
                 finish()
             }
         }

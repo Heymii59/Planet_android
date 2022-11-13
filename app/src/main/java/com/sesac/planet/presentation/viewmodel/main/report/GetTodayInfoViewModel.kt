@@ -12,20 +12,19 @@ import com.sesac.planet.network.main.report.GetTodayInfoAPI
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class GetTodayInfoViewModel(private val getTodayInfoUseCase: GetTodayInfoUseCase): ViewModel() {
+class GetTodayInfoViewModel(private val getTodayInfoUseCase: GetTodayInfoUseCase) : ViewModel() {
     private val _getTodayInfoData = MutableLiveData<Response<GetTodayInfoResponse>>()
-    val getTodayInfoData : LiveData<Response<GetTodayInfoResponse>> get() = _getTodayInfoData
+    val getTodayInfoData: LiveData<Response<GetTodayInfoResponse>> get() = _getTodayInfoData
 
     init {
-        GetTodayInfoRepository.getTodayInfoService = PlanetApplication.getInstance().create(GetTodayInfoAPI::class.java)
+        GetTodayInfoRepository.getTodayInfoService =
+            PlanetApplication.getInstance().create(GetTodayInfoAPI::class.java)
     }
 
-    fun getTodayInfo(token: String, userId: Int){
-        if(_getTodayInfoData.value == null){
-            viewModelScope.launch {
-                val response = getTodayInfoUseCase(token, userId)
-                _getTodayInfoData.value = response
-            }
+    fun getTodayInfo(token: String, userId: Int) {
+        viewModelScope.launch {
+            val response = getTodayInfoUseCase(token, userId)
+            _getTodayInfoData.value = response
         }
     }
 }
