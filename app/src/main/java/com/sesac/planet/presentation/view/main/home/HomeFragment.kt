@@ -189,11 +189,11 @@ class HomeFragment : Fragment(), OnPostDetailPlan {
 
     override fun onPostDetailPlan(planetId: Int?, toDoText: String?, type: String?) {
         //오늘의 성장 계획 추가하기
+        Log.d("POST PLAN", "POST PLAN")
         if (planetId != null && toDoText != null && type != null) {
             token?.let {
                 postDetailPlanViewModel.postDetailPlan(
-                    it,
-                    journeyId, planetId, PostDetailPlanRequest(toDoText, type)
+                    it, journeyId, planetId, PostDetailPlanRequest(toDoText, type)
                 )
             }
         }
@@ -203,6 +203,7 @@ class HomeFragment : Fragment(), OnPostDetailPlan {
         postDetailPlanViewModel.detailPlan.observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 if (response.body()?.result != null) {
+                    Log.d("POST UPDATE DATA", "UPDATE")
                     homeTodayGrowthPlanAdapter.setData(
                         listOf(ResultTodayGrowthPlans(
                             response.body()!!.result.planet_id,

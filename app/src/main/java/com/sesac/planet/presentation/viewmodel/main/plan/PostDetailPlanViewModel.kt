@@ -27,9 +27,11 @@ class PostDetailPlanViewModel(private val postDetailPlanUseCase: PostDetailPlanU
         planetId: Int,
         postDetailPlanRequest: PostDetailPlanRequest
     ) {
-        viewModelScope.launch {
-            val response = postDetailPlanUseCase(token, journeyId, planetId, postDetailPlanRequest)
-            _detailPlan.value = response
+        if(detailPlan.value == null){
+            viewModelScope.launch {
+                val response = postDetailPlanUseCase(token, journeyId, planetId, postDetailPlanRequest)
+                _detailPlan.value = response
+            }
         }
     }
 }

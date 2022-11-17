@@ -82,8 +82,10 @@ class HomeTodayGrowthPlanAdapter(private val isShowMore: Boolean) : RecyclerView
     }
 
     fun setData(item: List<ResultTodayGrowthPlans>) {
-        planList.addAll(0, item)
-        notifyDataSetChanged()
+        if(!planList.contains(item[0])) {
+            planList.addAll(0, item)
+            notifyDataSetChanged()
+        }
     }
 
     interface OnItemClickListener{
