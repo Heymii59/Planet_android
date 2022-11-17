@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="6dp">
 
-    <EditText
+    <TextView
         android:id="@+id/item_planet_detail_modify_to_do_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="헬스장 알아보러가기"
-        android:textSize="14dp"
-        android:textColor="@color/gray_737373"
         android:background="@null"
+        android:text="헬스장 알아보러가기"
+        android:textColor="@color/gray_737373"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/item_planet_detail_modify_duration_layout"
         app:layout_constraintHorizontal_weight="10"
@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_planet_detail_modify_delete_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/item_planet_detail_delete_image_view"
         app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toEndOf="@+id/item_planet_detail_modify_to_do_text_view"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,10 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rectangle_radius_10dp_gray_stroke_white_solid"
-            android:paddingLeft="10dp"
-            android:paddingTop="2dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="2dp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="10dp"
             android:text="1회성"
             android:textColor="@color/gray_737373"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,8 +44,9 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <ImageView
-        android:id="@+id/item_planet_detail_modify_drag_image_view"
+        android:id="@+id/item_planet_detail_delete_image_view"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ic_launcher_background"
@@ -56,7 +55,8 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/item_planet_detail_modify_duration_layout"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
+
 
     <ImageView
         android:id="@+id/item_planet_detail_modify_delete_image_view"
@@ -68,6 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_planet_detail_modify_drag_image_view"
+        app:layout_constraintStart_toEndOf="@+id/item_planet_detail_delete_image_view"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

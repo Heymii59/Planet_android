@@ -3,6 +3,7 @@ package com.sesac.planet.data.repository.main.plan
 import com.sesac.planet.data.model.MakeJourneyRequest
 import com.sesac.planet.data.model.BaseResponse
 import com.sesac.planet.data.model.CheckNickNameResponse
+import com.sesac.planet.data.model.plan.PatchPlanResponse
 import com.sesac.planet.data.model.plan.PostDetailPlanRequest
 import com.sesac.planet.data.model.plan.PostDetailPlanResponse
 import com.sesac.planet.data.model.plan.TodayGrowthPlansResponse
@@ -42,8 +43,8 @@ object PlanRepository {
         return postPlanResponse
     }
 
-    suspend fun patchPlan(token: String, detailedPlanId: Int): Response<BaseResponse>{
-        val patchPlanResponse: Response<BaseResponse>
+    suspend fun patchPlan(token: String, detailedPlanId: Int): Response<PatchPlanResponse>{
+        val patchPlanResponse: Response<PatchPlanResponse>
 
         withContext(Dispatchers.IO){
             patchPlanResponse = postPlanService.patchDetailPlan(token, detailedPlanId)

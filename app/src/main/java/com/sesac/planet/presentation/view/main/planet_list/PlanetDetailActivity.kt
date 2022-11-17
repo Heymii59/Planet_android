@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.plan.PostDetailPlanRequest
+import com.sesac.planet.data.model.planet.ResultPlanetDetailPlan
 import com.sesac.planet.databinding.ActivityPlanetDetailBinding
 import com.sesac.planet.presentation.view.main.planet_list.adapter.PlanetDetailAdapter
 import com.sesac.planet.presentation.viewmodel.main.plan.PatchDetailPlanViewModel
@@ -27,7 +28,8 @@ import com.sesac.planet.presentation.viewmodel.main.planet.PlanetDetailViewModel
 import com.sesac.planet.utility.Constant
 import com.sesac.planet.utility.SystemUtility
 
-class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGetCreatePlanetPlanResult  {
+class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch,
+    OnGetCreatePlanetPlanResult {
     private val binding by lazy { ActivityPlanetDetailBinding.inflate(layoutInflater) }
 
     private var token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
@@ -35,8 +37,8 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
 
     private lateinit var planetDetailAdapter: PlanetDetailAdapter
 
-    private var keyword: Int= 0
-    private var planSize: Int=0
+    private var keyword: Int = 0
+    private var planSize: Int = 0
 
     private val planetDetailViewModel by lazy {
         ViewModelProvider(
@@ -45,14 +47,15 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
         )[PlanetDetailViewModel::class.java]
     }
 
-    private val planDataViewModel by lazy{
+    private val planDataViewModel by lazy {
         ViewModelProvider(
             this,
             PostDetailPlanViewModelFactory()
         )[PostDetailPlanViewModel::class.java]
     }
 
-    private val patchDetailPlanViewModel by lazy{
+
+    private val patchDetailPlanViewModel by lazy {
         ViewModelProvider(
             this,
             PatchDetailPlanViewModelFactory()
@@ -74,8 +77,8 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
         setData()
     }
 
-    private fun initView(){
-        binding.planetDetailBackImageView.setOnClickListener{
+    private fun initView() {
+        binding.planetDetailBackImageView.setOnClickListener {
             finish()
         }
 
@@ -91,8 +94,8 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
         }
     }
 
-    private fun setData(){
-        keyword = intent.getIntExtra("planet_id",0)
+    private fun setData() {
+        keyword = intent.getIntExtra("planet_id", 0)
 
         initPlanetDetailInfoObservers()
         token?.let {
@@ -103,39 +106,52 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
         }
     }
 
-    private fun initPlanetDetailInfoObservers(){
-        planetDetailViewModel.planetDetailData.observe(this){ response ->
-            if(response.isSuccessful){
+    private fun initPlanetDetailInfoObservers() {
+        planetDetailViewModel.planetDetailData.observe(this) { response ->
+            if (response.isSuccessful) {
                 response.body()?.result.let { body ->
-                    if(body == null){
+                    if (body == null) {
 
                     } else {
-                        binding.planetDetailPlanetImg.imageTintList = ColorStateList.valueOf(Color.parseColor(body.color))
+                        binding.planetDetailPlanetImg.imageTintList =
+                            ColorStateList.valueOf(Color.parseColor(body.color))
                         binding.planetDetailPlanetNameTv.text = "${body.planet_name} 행성"
 
-                        if(!body.planet_intro.isNullOrEmpty()){
+                        if (!body.planet_intro.isNullOrEmpty()) {
                             binding.planetDetailExplainPlanetTextView.text = body.planet_intro
-                        } else{
+                        } else {
                             binding.planetDetailExplainPlanetTextView.text = "작성한 설명이 없습니다"
-                            binding.planetDetailExplainPlanetTextView.setTextColor(ColorStateList.valueOf(Color.parseColor("#C4C4C4")))
+                            binding.planetDetailExplainPlanetTextView.setTextColor(
+                                ColorStateList.valueOf(
+                                    Color.parseColor("#C4C4C4")
+                                )
+                            )
                         }
 
                         binding.planetDetailGrowthLevelTextView.text = "LV.${body.planet_level}"
                         binding.itemPlanetListLevelProgressBar.max = body.plans.size
                         binding.itemPlanetListLevelProgressBar.progress = body.planet_exp
-                        binding.itemPlanetListLevelProgressBar.progressTintList = ColorStateList.valueOf(Color.parseColor(body.color))
+                        binding.itemPlanetListLevelProgressBar.progressTintList =
+                            ColorStateList.valueOf(Color.parseColor(body.color))
 
-                        if(!body.plans.isNullOrEmpty()){
+                        if (!body.plans.isNullOrEmpty()) {
                             binding.planetDetailDetailsPlanRecyclerView.visibility = View.VISIBLE
                             binding.planetDetailDetailsPlanTextView.visibility = View.GONE
 
-                            planetDetailAdapter = PlanetDetailAdapter(body.plans, this)
-                            binding.planetDetailDetailsPlanRecyclerView.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-                            binding.planetDetailDetailsPlanRecyclerView.adapter = planetDetailAdapter
+                            planetDetailAdapter = PlanetDetailAdapter(this)
+                            binding.planetDetailDetailsPlanRecyclerView.layoutManager =
+                                LinearLayoutManager(
+                                    applicationContext,
+                                    RecyclerView.VERTICAL,
+                                    false
+                                )
+                            binding.planetDetailDetailsPlanRecyclerView.adapter =
+                                planetDetailAdapter
+                            planetDetailAdapter.setData(body.plans)
 
                             planSize = body.plans.size
 
-                        } else{
+                        } else {
                             binding.planetDetailDetailsPlanRecyclerView.visibility = View.GONE
                             binding.planetDetailDetailsPlanTextView.visibility = View.VISIBLE
                         }
@@ -146,7 +162,7 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
     }
 
     override fun getDetailPlansIdForPatch(detailedId: Int?) {
-        if(detailedId != null){
+        if (detailedId != null) {
             //세부계획 완료 미완료 API 연결
             token?.let {
                 patchDetailPlanViewModel.patchDetailPlan(
@@ -160,7 +176,7 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
 
     override fun onGetCreatePlanetPlanResult(planContent: String?, type: String?) {
         //서버에 저장해주고 리사이클러뷰 갱신
-        if(planContent != null && type != null){
+        if (planContent != null && type != null) {
             token?.let {
                 planDataViewModel.postDetailPlan(
                     it,
@@ -168,6 +184,17 @@ class PlanetDetailActivity() : AppCompatActivity(), DetailPlansIdForPatch, OnGet
                     keyword,
                     PostDetailPlanRequest(planContent, type)
                 )
+
+                planDataViewModel.detailPlan.observe(this){response ->
+                    if(response.isSuccessful){
+                        planetDetailAdapter.setData(listOf(ResultPlanetDetailPlan(
+                            response.body()!!.result.detailed_plan_id,
+                            response.body()!!.result.plan_content,
+                            response.body()!!.result.type,
+                            0
+                        )))
+                    }
+                }
             }
         }
     }

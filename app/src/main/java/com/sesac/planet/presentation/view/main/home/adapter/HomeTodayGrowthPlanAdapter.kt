@@ -14,6 +14,7 @@ import com.sesac.planet.databinding.ItemHomeTodayGrowthPlanBinding
 
 class HomeTodayGrowthPlanAdapter(private val isShowMore: Boolean) : RecyclerView.Adapter<HomeTodayGrowthPlanAdapter.HomeTodayGrowthPlanViewHolder>(){
     private var planList = mutableListOf<ResultTodayGrowthPlans>()
+    private var pos = 0
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -62,19 +63,7 @@ class HomeTodayGrowthPlanAdapter(private val isShowMore: Boolean) : RecyclerView
             }
 
             binding.root.setOnClickListener {
-                val currentColor = binding.itemHomeTodayGrowthPlanTextView.currentTextColor
-                if(currentColor == R.color.gray_5E5E5E) {
-                    //완료 X -> 완료
-                    Log.d("TextColor", "5e5e5e")
-                    binding.itemHomeTodayGrowthPlanTextView.setTextColor(binding.itemHomeTodayGrowthPlanTextView.context.resources.getColor(R.color.gray_E1E1E1, null))
-                } else {
-                    // 완료 -> x
-                    Log.d("TextColor", "e1e1e1")
-
-                    binding.itemHomeTodayGrowthPlanTextView.setTextColor(binding.itemHomeTodayGrowthPlanTextView.context.resources.getColor(R.color.gray_5E5E5E, null))
-
-                }
-
+                pos = position
                 itemClickListener.onClick(it, position, planList[position].detailed_plan_id)
             }
 
@@ -88,6 +77,15 @@ class HomeTodayGrowthPlanAdapter(private val isShowMore: Boolean) : RecyclerView
         }
     }
 
+    fun updateDate(item: ResultTodayGrowthPlans){
+        planList[pos] = item
+        notifyItemChanged(pos)
+    }
+
+    fun planetListSize(): Int{
+        return planList.size
+    }
+
     interface OnItemClickListener{
         fun onClick(v: View, position: Int, detailedPlanId: Int)
     }
@@ -97,4 +95,5 @@ class HomeTodayGrowthPlanAdapter(private val isShowMore: Boolean) : RecyclerView
     }
 
     private lateinit var itemClickListener: OnItemClickListener
+
 }

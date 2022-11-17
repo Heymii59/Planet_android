@@ -39,7 +39,7 @@
                 android:id="@+id/my_page_profile_image_view"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
-                android:src="@drawable/shape_profile"
+                android:src="@drawable/ic_planet_mint"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -98,7 +98,8 @@
         android:textColor="@color/black"
         android:textSize="18dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_page_profile_total_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/my_page_profile_total_layout"
+        android:visibility="gone"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/my_page_see_init_setting"
@@ -115,7 +116,8 @@
         android:paddingBottom="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_page_manage_goal_tv">
+        app:layout_constraintTop_toBottomOf="@+id/my_page_manage_goal_tv"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

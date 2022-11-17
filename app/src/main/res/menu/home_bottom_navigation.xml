@@ -3,22 +3,22 @@
 
     <item android:id="@+id/action_home"
         android:title="홈"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_tab_home"
         android:enabled="true"/>
 
     <item android:id="@+id/action_planet_list"
         android:title="행성목록"
-        android:icon="@drawable/ic_planet_list"
+        android:icon="@drawable/ic_tab_planet_list"
         android:enabled="true" />
 
     <item android:id="@+id/daily_record_nav_graph"
         android:title="하루기록"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_tab_daily"
         android:enabled="true" />
 
     <item android:id="@+id/action_my_page"
         android:title="MY"
-        android:icon="@drawable/ic_mypage"
+        android:icon="@drawable/ic_tab_my"
         android:enabled="true" />
 
 </menu>

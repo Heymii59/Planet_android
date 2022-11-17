@@ -13,7 +13,39 @@
             android:id="@+id/visibility_control_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:constraint_referenced_ids="detail_container" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/not_exist_daily_record_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="not_exist_daily_record_image_view, not_exist_daily_record_text_view" />
+
+        <ImageView
+            android:id="@+id/not_exist_daily_record_image_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@id/calendar_container"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_planet_mint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/not_exist_daily_record_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/not_exist_daily_record_image_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
+            tools:text="이날은 작성한 하루기록이 없으시군요"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_container"
@@ -68,7 +100,7 @@
                 android:layout_marginStart="10dp"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:text="10월 10일의 나"/>
+                tools:text="10월 10일의 나"/>
 
             <androidx.cardview.widget.CardView
                 app:layout_constraintTop_toBottomOf="@id/detail_title_text_view"
@@ -113,7 +145,7 @@
                         app:layout_constraintTop_toTopOf="@id/past_feel_title_text_view"
                         app:layout_constraintBottom_toBottomOf="@id/past_feel_title_text_view"
                         android:layout_marginStart="10dp"
-                        android:text="뿌듯함, 즐거웠던 밥시간"
+                        tools:text="뿌듯함, 즐거웠던 밥시간"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/purple_896DF3"
@@ -136,7 +168,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/past_short_review_icon_image_view"
                         app:layout_constraintStart_toEndOf="@id/past_short_review_icon_image_view"
                         android:layout_marginStart="10dp"
-                        android:text="짧은평"
+                        tools:text="짧은평"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
@@ -151,7 +183,7 @@
                         android:maxLines="110"
                         android:ellipsize="end"
                         android:textSize="14sp"
-                        android:text="오늘 클래스랑 모듈 배우면서 어느정도는 머리에 들어온 것 같아서 다행이다 오히려 초반에 문자열 숫자열이 훅 지나가서 뭔지 모른채 따라가고 계속 새로운 단어 나오면서 배운 것들 보다 이해가 됐던 거 같다 18시 30분에 끝나고 1시간 정도 미처 쓰지 못한 코드 보충하고, 주석처리나 댓글을 좀 더 써뒀다 뭣보다 오늘 1번 문제 틀리겠지만 break 힌트 받고 멈추게라도 한 게 뿌듯하면 뿌듯하다"/>
+                        tools:text="오늘 클래스랑 모듈 배우면서 어느정도는 머리에 들어온 것 같아서 다행이다 오히려 초반에 문자열 숫자열이 훅 지나가서 뭔지 모른채 따라가고 계속 새로운 단어 나오면서 배운 것들 보다 이해가 됐던 거 같다 18시 30분에 끝나고 1시간 정도 미처 쓰지 못한 코드 보충하고, 주석처리나 댓글을 좀 더 써뒀다 뭣보다 오늘 1번 문제 틀리겠지만 break 힌트 받고 멈추게라도 한 게 뿌듯하면 뿌듯하다"/>
 
                     <ImageView
                         android:id="@+id/today_evaluation_icon_image_view"
@@ -172,7 +204,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/today_evaluation_icon_image_view"
                         app:layout_constraintStart_toEndOf="@id/today_evaluation_icon_image_view"
                         android:layout_marginStart="10dp"
-                        android:text="하루평가"
+                        tools:text="하루평가"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
@@ -184,7 +216,7 @@
                         app:layout_constraintStart_toEndOf="@id/today_evaluation_title_text_view"
                         app:layout_constraintTop_toTopOf="@id/today_evaluation_title_text_view"
                         app:layout_constraintBottom_toBottomOf="@id/today_evaluation_title_text_view"
-                        android:text="5"
+                        tools:text="5"
                         android:textSize="14sp"
                         android:layout_marginStart="10dp"
                         android:textColor="@color/white"

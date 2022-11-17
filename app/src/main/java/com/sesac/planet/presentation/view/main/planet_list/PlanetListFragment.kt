@@ -17,10 +17,7 @@ import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.planet.RevisePlanetRequest
 import com.sesac.planet.databinding.FragmentPlanetListBinding
 import com.sesac.planet.presentation.view.main.planet_list.adapter.PlanetListAdapter
-import com.sesac.planet.presentation.viewmodel.main.planet.PlanetInfoViewModel
-import com.sesac.planet.presentation.viewmodel.main.planet.PlanetViewModelFactory
-import com.sesac.planet.presentation.viewmodel.main.planet.RevisePlanetViewModel
-import com.sesac.planet.presentation.viewmodel.main.planet.RevisePlanetViewModelFactory
+import com.sesac.planet.presentation.viewmodel.main.planet.*
 import com.sesac.planet.utility.Constant
 import com.sesac.planet.utility.SystemUtility
 
@@ -38,6 +35,20 @@ class PlanetListFragment() : Fragment(){
             this,
             PlanetViewModelFactory()
         )[PlanetInfoViewModel::class.java]
+    }
+
+    private val newPlanetViewModel by lazy {
+        ViewModelProvider(
+            this,
+            NewPlanetViewModelFactory()
+        )[NewPlanetViewModel::class.java]
+    }
+
+    private val deletePlanetViewModel by lazy {
+        ViewModelProvider(
+            this,
+            DeletePlanetViewModelFactory()
+        )[DeletePlanetViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -87,6 +98,12 @@ class PlanetListFragment() : Fragment(){
     }
 
     private fun initObservers() {
+        newPlanetViewModel.newPlanetData.observe(viewLifecycleOwner){response ->
+            if(response.isSuccessful){
+                Log.d("CREATE_RESULT >> ", "${response.body()}")
+            }
+        }
+
         viewModel.planetData.observe(viewLifecycleOwner) { response ->
             binding.refreshContainer.isRefreshing = false
             if (response.isSuccessful) {
@@ -94,9 +111,10 @@ class PlanetListFragment() : Fragment(){
                     if (body == null) {
 
                     } else {
-                        planetListAdapter = PlanetListAdapter(body)
+                        planetListAdapter = PlanetListAdapter()
                         binding.planetListRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
                         binding.planetListRecyclerView.adapter = planetListAdapter
+                        planetListAdapter.setData(body)
 
                         planetListAdapter.setItemClickListener(
                             object : PlanetListAdapter.OnItemClickListener {
@@ -116,6 +134,12 @@ class PlanetListFragment() : Fragment(){
                                 ) {
                                     val deleteDialog = DeletePlanetDialog(deletePlanetId)
                                     activity?.let { deleteDialog.show(it.supportFragmentManager, "DeletePlanetDialog") }
+
+                                    deletePlanetViewModel.deletePlanetData.observe(viewLifecycleOwner){response ->
+                                        if(response.isSuccessful){
+                                            Log.d("TAG : ", response.body().toString())
+                                        }
+                                    }
                                 }
                             }
                         )

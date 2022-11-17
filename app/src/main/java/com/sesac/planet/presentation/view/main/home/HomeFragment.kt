@@ -203,17 +203,21 @@ class HomeFragment : Fragment(), OnPostDetailPlan {
         postDetailPlanViewModel.detailPlan.observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 if (response.body()?.result != null) {
-                    Log.d("POST UPDATE DATA", "UPDATE")
                     homeTodayGrowthPlanAdapter.setData(
-                        listOf(ResultTodayGrowthPlans(
-                            response.body()!!.result.planet_id,
-                            response.body()!!.result.plan_content,
-                            response.body()!!.result.type,
-                            0,
-                            response.body()!!.result.detailed_plan_id,
-                            "#896DF3"
-                        ))
+                        listOf(
+                            ResultTodayGrowthPlans(
+                                response.body()!!.result.planet_id,
+                                response.body()!!.result.plan_content,
+                                response.body()!!.result.type,
+                                0,
+                                response.body()!!.result.detailed_plan_id,
+                                "#896DF3"
+                            )
+                        )
                     )
+
+                    //binding.homeAccomplishTextView.text = "오늘 할 일 ${homeTodayGrowthPlanAdapter.planetListSize()}개 중 _개를 달성하였습니다"
+                    binding.homeTargetAmountTextView.text = homeTodayGrowthPlanAdapter.planetListSize().toString()
 
                 } else {
                 }
@@ -249,16 +253,32 @@ class HomeFragment : Fragment(), OnPostDetailPlan {
                             homeTodayGrowthPlanAdapter.setItemClickListener(object :
                                 HomeTodayGrowthPlanAdapter.OnItemClickListener {
                                 override fun onClick(v: View, position: Int, detailedPlanId: Int) {
+                                    var pos = position
+
                                     //계획 완료/미완료 API 연결
-                                    /*
                                     token?.let {
                                         patchDetailPlanViewModel.patchDetailPlan(
                                             it,
                                             detailedPlanId
                                         )
                                     }
-                                    */
-                                    Log.d("GetDetailedPlanId : ", "$detailedPlanId")
+
+                                    patchDetailPlanViewModel.patchDetailPlan.observe(
+                                        viewLifecycleOwner
+                                    ) { response ->
+                                        if (response.isSuccessful) {
+                                            homeTodayGrowthPlanAdapter.updateDate(
+                                                ResultTodayGrowthPlans(
+                                                    response.body()!!.result.plan_id,
+                                                    response.body()!!.result.plan_content,
+                                                    response.body()!!.result.type,
+                                                    response.body()!!.result.is_completed,
+                                                    response.body()!!.result.detailed_plan_id,
+                                                    response.body()!!.result.color
+                                                )
+                                            )
+                                        }
+                                    }
                                 }
                             })
 
@@ -305,8 +325,7 @@ class HomeFragment : Fragment(), OnPostDetailPlan {
                     if (body == null) {
 
                     } else {
-                        binding.homeAccomplishTextView.text =
-                            "오늘 할 일 ${body.totalPlan}개 중 ${body.completedCount}개를 달성하였습니다"
+                        //binding.homeAccomplishTextView.text = "오늘 할 일 ${body.totalPlan}개 중 ${body.completedCount}개를 달성하였습니다"
                         binding.homeAccomplishProgressBar.max = body.totalPlan
                         binding.homeAccomplishProgressBar.progress = body.completedCount
                         binding.homeAccomplishedAmountTextView.text = body.completedCount.toString()
@@ -443,18 +462,6 @@ class HomeFragment : Fragment(), OnPostDetailPlan {
 
         //val marker = MyMarkerView(this, layoutResource = R.layout.custom_marker_view)
         //binding.lineChart.marker = marker
-    }
-
-    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
-        var fm = activity?.supportFragmentManager
-        var oldFragment: Fragment? = fm?.findFragmentById(R.id.action_home)
-
-        if (oldFragment != null) {
-            fm?.beginTransaction()?.remove(oldFragment)?.commit()
-        }
-
-        val newFragment = Fragment()
-        fm?.beginTransaction()?.add(newFragment, "fragment_tag")
     }
 
     override fun onDestroyView() {

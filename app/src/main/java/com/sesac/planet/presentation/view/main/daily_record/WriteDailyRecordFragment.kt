@@ -18,10 +18,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.sesac.planet.R
+import com.sesac.planet.config.PlanetApplication
+import com.sesac.planet.data.model.CreateDiaryRequest
 import com.sesac.planet.databinding.FragmentWriteDailyRecordBinding
+import com.sesac.planet.presentation.viewmodel.dailyrecord.DailyRecordViewModel
+import com.sesac.planet.presentation.viewmodel.dailyrecord.DailyRecordViewModelFactory
+import com.sesac.planet.utility.Constant
 
 
 class WriteDailyRecordFragment : DialogFragment() {
@@ -32,6 +38,7 @@ class WriteDailyRecordFragment : DialogFragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var startGalleryActivityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var selectedImageUri: String
+    private val viewModel by lazy { ViewModelProvider(this, DailyRecordViewModelFactory()).get(DailyRecordViewModel::class.java)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +87,27 @@ class WriteDailyRecordFragment : DialogFragment() {
                 .into(binding.firstSelectedImageView)
         }
         binding.saveButton.setOnClickListener {
-            Toast.makeText(requireActivity(), "Dialog Fragment Dismiss", Toast.LENGTH_LONG).show()
+            //Toast.makeText(requireActivity(), "Dialog Fragment Dismiss", Toast.LENGTH_LONG).show()
+            //dialog?.dismiss()
+            val journeyId = PlanetApplication.sharedPreferences.getInt(Constant.JOURNEY_ID, -1)
+            val token = PlanetApplication.sharedPreferences.getString(Constant.X_ACCESS_TOKEN, "")
+
+            if(binding.inputEmotionEditText.text.isNotEmpty() && binding.inputEmotionEditText.text.isNotEmpty() && point != 0) {
+
+                viewModel.makeDailyRecord(
+                    CreateDiaryRequest(
+                        binding.inputShortReviewEditText.text.toString().trim(),
+                        binding.inputEmotionEditText.text.toString().trim(),
+                        point,
+                        emptyList(),
+                        journeyId
+                    ),
+                    token!!
+                )
+            }
+        }
+
+        binding.temporarySaveButton.setOnClickListener {
             dialog?.dismiss()
         }
 
@@ -179,6 +206,22 @@ class WriteDailyRecordFragment : DialogFragment() {
             checkPermission()
         }
 
+        initObservers()
+
+    }
+
+    private fun initObservers() {
+        viewModel.makeDailyRecordResponse.observe(viewLifecycleOwner) { response ->
+            when(response.body()?.code) {
+                1000 -> {
+                    Toast.makeText(requireActivity(), "하루기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                    dialog?.dismiss()
+                } else -> {
+                    Toast.makeText(requireActivity(), "하루기록을 저장하지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    dialog?.dismiss()
+                }
+            }
+        }
     }
 
     private fun checkPermission() {

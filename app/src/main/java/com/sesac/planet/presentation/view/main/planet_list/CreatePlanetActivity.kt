@@ -3,6 +3,7 @@ package com.sesac.planet.presentation.view.main.planet_list
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sesac.planet.config.PlanetApplication
 import com.sesac.planet.data.model.planet.CreateNewPlanetPlanListRequest
 import com.sesac.planet.data.model.planet.CreateNewPlanetRequest
+import com.sesac.planet.data.model.planet.ResultPlanetInfo
 import com.sesac.planet.databinding.ActivityCreatePlanetBinding
 import com.sesac.planet.presentation.view.main.home.OnSelectColorResult
 import com.sesac.planet.presentation.view.main.planet_list.adapter.CreateDetailPlanAdapter
+import com.sesac.planet.presentation.view.main.planet_list.adapter.PlanetListAdapter
 import com.sesac.planet.presentation.viewmodel.main.planet.NewPlanetViewModel
 import com.sesac.planet.presentation.viewmodel.main.planet.NewPlanetViewModelFactory
 import com.sesac.planet.utility.Constant
@@ -27,6 +30,8 @@ class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCrea
 
     private var selectedColor: String = ""
     private var planData: MutableList<CreateNewPlanetPlanListRequest> = mutableListOf()
+
+    private val planetListAdapter = PlanetListAdapter()
 
     private lateinit var createDetailPlanAdapter: CreateDetailPlanAdapter
 
@@ -50,7 +55,7 @@ class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCrea
         SystemUtility.applyWindowInsetsPadding(binding.root)
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.createBackImg.setOnClickListener {
             finish()
         }
@@ -72,7 +77,7 @@ class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCrea
         }
     }
 
-    private fun createNewPlanet(){
+    private fun createNewPlanet() {
         token?.let {
             newPlanetViewModel.createNewPlanet(
                 it,
@@ -84,7 +89,8 @@ class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCrea
     //Dialog에서 선택한 색깔 값 받아옴
     override fun onSelectColorResult(colorId: String?) {
         if (colorId != null) {
-            binding.planetDetailPlanetImg.backgroundTintList = ColorStateList.valueOf(Color.parseColor(colorId))
+            binding.planetDetailPlanetImg.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor(colorId))
             binding.createPlanetSelectColorTv.visibility = View.GONE
 
             selectedColor = colorId
@@ -93,14 +99,15 @@ class CreatePlanetActivity : AppCompatActivity(), OnSelectColorResult, OnGetCrea
 
     //Dialog에서 작성한 계획과 타입 받아옴
     override fun onGetCreatePlanetPlanResult(planContent: String?, type: String?) {
-        if(planContent != null && type != null){
+        if (planContent != null && type != null) {
             binding.createDetailNoPlanTitle.visibility = View.GONE
             binding.createDetailPlanRcv.visibility = View.VISIBLE
 
             planData.add(CreateNewPlanetPlanListRequest(planContent, type))
 
             createDetailPlanAdapter = CreateDetailPlanAdapter(planData)
-            binding.createDetailPlanRcv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            binding.createDetailPlanRcv.layoutManager =
+                LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             binding.createDetailPlanRcv.adapter = createDetailPlanAdapter
         }
     }

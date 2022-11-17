@@ -42,6 +42,5 @@ data class ResultPlanetDetailPlan(
     @SerializedName("detailed_plan_id") val detailed_plan_id: Int,
     @SerializedName("plan_name") val plan_name: String,
     @SerializedName("type") val type: String,
-    @SerializedName("status") val status: Int,
     @SerializedName("is_completed") val is_completed: Int
 )

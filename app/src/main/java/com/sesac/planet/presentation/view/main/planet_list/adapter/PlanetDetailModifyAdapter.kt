@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sesac.planet.data.model.plan.ResultTodayGrowthPlans
 import com.sesac.planet.data.model.planet.ResultPlanetDetailPlan
 import com.sesac.planet.databinding.ItemPlanetDetailDetailsModifyPlanBinding
 import com.sesac.planet.presentation.view.main.planet_list.ItemActionListener
@@ -13,45 +14,11 @@ import com.sesac.planet.presentation.view.main.planet_list.ItemDragListener
 import com.sesac.planet.presentation.view.main.planet_list.OnDeletePlanResult
 
 class PlanetDetailModifyAdapter(
-    private val items: MutableList<ResultPlanetDetailPlan>,
     private val onDeletePlanResult: OnDeletePlanResult,
     private val listener: ItemDragListener
 ): RecyclerView.Adapter<PlanetDetailModifyAdapter.PlanDetailModifyViewHolder>(), ItemActionListener {
-    @SuppressLint("ClickableViewAccessibility")
-    inner class PlanDetailModifyViewHolder(
-        private val binding: ItemPlanetDetailDetailsModifyPlanBinding,
-        listener: ItemDragListener
-    ) : RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.itemPlanetDetailModifyDragImageView.setOnTouchListener { v, event ->
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    listener.onStartDrag(this)
-                }
-                false
-            }
 
-            binding.itemPlanetDetailModifyDeleteImageView.setOnClickListener {
-                val position: Int = adapterPosition
-
-                //삭제 API 연결
-                onDeletePlanResult.onDeletePlanResult(items!![position].detailed_plan_id)
-
-                items.removeAt(position)
-                notifyItemRemoved(position)
-            }
-        }
-
-        fun bind(position: Int) {
-            binding.itemPlanetDetailModifyToDoTextView.hint = items!![position].plan_name
-
-            if(items!![position].type.contains(":")){
-                binding.itemPlanetDetailModifyDurationTextView.text = items!![position].type.substring(5)
-            } else{
-                binding.itemPlanetDetailModifyDurationTextView.text = items!![position].type
-            }
-
-        }
-    }
+    private var planList = mutableListOf<ResultPlanetDetailPlan>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -69,7 +36,52 @@ class PlanetDetailModifyAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = planList.size
+
+    @SuppressLint("ClickableViewAccessibility")
+    inner class PlanDetailModifyViewHolder(
+        private val binding: ItemPlanetDetailDetailsModifyPlanBinding,
+        listener: ItemDragListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            /*
+            binding.itemPlanetDetailModifyDragImageView.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    listener.onStartDrag(this)
+                }
+                false
+            }
+            */
+
+            binding.itemPlanetDetailModifyDeleteImageView.setOnClickListener {
+                val position: Int = adapterPosition
+
+                //삭제 API 연결
+                onDeletePlanResult.onDeletePlanResult(planList[position].detailed_plan_id)
+
+                planList.removeAt(position)
+                notifyItemRemoved(position)
+            }
+        }
+
+        fun bind(position: Int) {
+            binding.itemPlanetDetailModifyToDoTextView.text = planList[position].plan_name
+
+            if(planList[position].type.contains(":")){
+                binding.itemPlanetDetailModifyDurationTextView.text = planList[position].type.substring(5)
+            } else{
+                binding.itemPlanetDetailModifyDurationTextView.text = planList[position].type
+            }
+
+        }
+    }
+
+    fun setData(item: List<ResultPlanetDetailPlan>) {
+        if(!planList.contains(item[0])) {
+            planList.addAll(0, item)
+            notifyDataSetChanged()
+        }
+    }
 
     interface OnItemClickListener{
         fun onDeleteClick(v: View, position: Int)
@@ -86,8 +98,8 @@ class PlanetDetailModifyAdapter(
             return
         }
 
-        val fromItem = items.removeAt(from)
-        items.add(to, fromItem)
+        val fromItem = planList.removeAt(from)
+        planList.add(to, fromItem)
         notifyItemMoved(from, to)
     }
 

@@ -85,7 +85,6 @@ class PlanetDetailModifyActivity() : AppCompatActivity(), ItemDragListener, OnSe
             val planetModifyName: String = binding.planetDetailModifyPlanetNameEdt.text.toString()
             val planetModifyIntro: String =
                 binding.planetDetailModifyExplainPlanetTextView.text.toString()
-            val color: String = selectedColor
 
             if (!planetModifyName.isNullOrBlank()) {
                 planetName = planetModifyName
@@ -116,6 +115,7 @@ class PlanetDetailModifyActivity() : AppCompatActivity(), ItemDragListener, OnSe
         keyword = intent.getIntExtra("keyword", 0)
 
         initPlanetDetailInfoObservers()
+
         token?.let {
             planetDetailViewModel.getPlanetDetailInfo(
                 it,
@@ -140,8 +140,7 @@ class PlanetDetailModifyActivity() : AppCompatActivity(), ItemDragListener, OnSe
                         binding.planetDetailModifyExplainPlanetTextView.hint = body.planet_intro
                         planetIntro = body.planet_intro.toString()
 
-                        binding.planetDetailModifyGrowthLevelTextView.text =
-                            "LV.${body.planet_level}"
+                        binding.planetDetailModifyGrowthLevelTextView.text = "LV.${body.planet_level}"
                         binding.itemPlanetModifyListLevelProgressBar.max = body.plans.size
                         binding.itemPlanetModifyListLevelProgressBar.progress = body.planet_exp
                         binding.itemPlanetModifyListLevelProgressBar.progressTintList =
@@ -152,16 +151,16 @@ class PlanetDetailModifyActivity() : AppCompatActivity(), ItemDragListener, OnSe
                             binding.planetDetailModifyDetailsPlanRecyclerView.visibility =
                                 View.VISIBLE
 
-                            planetDetailModifyAdapter =
-                                PlanetDetailModifyAdapter(body.plans, this, this)
+                            planetDetailModifyAdapter = PlanetDetailModifyAdapter(this, this)
                             binding.planetDetailModifyDetailsPlanRecyclerView.layoutManager =
                                 LinearLayoutManager(
                                     applicationContext,
                                     RecyclerView.VERTICAL,
                                     false
                                 )
-                            binding.planetDetailModifyDetailsPlanRecyclerView.adapter =
-                                planetDetailModifyAdapter
+                            binding.planetDetailModifyDetailsPlanRecyclerView.adapter = planetDetailModifyAdapter
+                            planetDetailModifyAdapter.setData(body.plans)
+
                         } else {
                             binding.planetDetailModifyDetailsPlanTextView.visibility = View.VISIBLE
                             binding.planetDetailModifyDetailsPlanRecyclerView.visibility = View.GONE

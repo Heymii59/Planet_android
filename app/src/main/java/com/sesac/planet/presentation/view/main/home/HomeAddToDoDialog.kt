@@ -22,8 +22,6 @@ import com.sesac.planet.databinding.DialogHomeAddToDoBinding
 import com.sesac.planet.presentation.view.main.home.adapter.DialogSelectAdapter
 import com.sesac.planet.presentation.viewmodel.main.planet.PlanetInfoViewModel
 import com.sesac.planet.presentation.viewmodel.main.planet.PlanetViewModelFactory
-import com.sesac.planet.presentation.viewmodel.main.plan.PostDetailPlanViewModelFactory
-import com.sesac.planet.presentation.viewmodel.main.plan.PostDetailPlanViewModel
 import com.sesac.planet.utility.Constant
 
 class HomeAddToDoDialog(private val onPostDetailPlan: OnPostDetailPlan) : DialogFragment(), OnSelectPlanetResult {

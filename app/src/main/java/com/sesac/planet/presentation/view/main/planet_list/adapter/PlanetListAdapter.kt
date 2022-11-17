@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sesac.planet.data.model.plan.ResultTodayGrowthPlans
+import com.sesac.planet.data.model.planet.CreateNewPlanetResponse
+import com.sesac.planet.data.model.planet.PlanetInfoResponse
 import com.sesac.planet.data.model.planet.ResultPlanetInfo
 import com.sesac.planet.databinding.ItemPlanetListBinding
 
-class PlanetListAdapter(private val items: List<ResultPlanetInfo>?) : RecyclerView.Adapter<PlanetListAdapter.PlanetListViewHolder>(){
+class PlanetListAdapter() :
+    RecyclerView.Adapter<PlanetListAdapter.PlanetListViewHolder>() {
+    private var planetList = mutableListOf<ResultPlanetInfo>()
     private var planetId: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanetListViewHolder {
@@ -19,45 +24,51 @@ class PlanetListAdapter(private val items: List<ResultPlanetInfo>?) : RecyclerVi
 
     override fun onBindViewHolder(holder: PlanetListViewHolder, position: Int) {
         holder.bind(position)
+
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }
 
-        holder.itemView.setOnLongClickListener{
-            itemLongClickLongListener.onLongClick(it, position, items!![position].planet_id)
+        holder.itemView.setOnLongClickListener {
+            itemLongClickLongListener.onLongClick(it, position, planetList[position].planet_id)
             true
         }
     }
 
-    override fun getItemCount() = items!!.size
+    override fun getItemCount() = planetList.size
 
-    inner class PlanetListViewHolder(private val binding : ItemPlanetListBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(position: Int){
-            planetId = items!![position].planet_id
-
-            binding.itemPlanetListImg.imageTintList = ColorStateList.valueOf(Color.parseColor(items!![position].color))
-            binding.itemPlanetListPlanetTextView.text = "${items!![position].planet_name} 행성"
-            binding.itemPlanetListExplainPlanetTextView.text = items!![position].planet_intro
-            binding.itemPlanetListLevelTextView.text = "LV.${items!![position].planet_level}"
-            binding.itemPlanetListLevelProgressBar.max = items!![position].plan_count
-            binding.itemPlanetListLevelProgressBar.progress = items!![position].planet_exp
-            binding.itemPlanetListLevelProgressBar.progressTintList = ColorStateList.valueOf(Color.parseColor(items!![position].color))
+    inner class PlanetListViewHolder(private val binding: ItemPlanetListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) {
+            planetId = planetList[position].planet_id
+            binding.itemPlanetListImg.imageTintList = ColorStateList.valueOf(Color.parseColor(planetList[position].color))
+            binding.itemPlanetListPlanetTextView.text = "${planetList[position].planet_name} 행성"
+            binding.itemPlanetListExplainPlanetTextView.text = planetList[position].planet_intro
+            binding.itemPlanetListLevelTextView.text = "LV.${planetList[position].planet_level}"
+            binding.itemPlanetListLevelProgressBar.max = planetList[position].plan_count
+            binding.itemPlanetListLevelProgressBar.progress = planetList[position].planet_exp
+            binding.itemPlanetListLevelProgressBar.progressTintList = ColorStateList.valueOf(Color.parseColor(planetList[position].color))
         }
+    }
+
+    fun setData(item: List<ResultPlanetInfo>) {
+        planetList.addAll(0, item as MutableList)
+        notifyDataSetChanged()
     }
 
     interface OnItemClickListener {
         fun onClick(v: View, position: Int)
     }
 
-    interface OnItemLongClickListener{
+    interface OnItemLongClickListener {
         fun onLongClick(v: View, position: Int, deletePlanetId: Int)
     }
 
-    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
     }
 
-    fun setItemLongClickListener(onItemLongClickListener: OnItemLongClickListener){
+    fun setItemLongClickListener(onItemLongClickListener: OnItemLongClickListener) {
         this.itemLongClickLongListener = onItemLongClickListener
     }
 
